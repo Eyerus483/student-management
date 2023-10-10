@@ -4,6 +4,7 @@ namespace student_management.Model
     {
         public int Id { get; set; }
         public string UserName { get; set; } = string.Empty;
+        public Role Role { get; set; } = Role.Admin;
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
         public byte[] PasswordHash { get; set; } = new byte[0];

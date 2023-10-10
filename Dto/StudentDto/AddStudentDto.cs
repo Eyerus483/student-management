@@ -5,6 +5,7 @@ namespace student_management.Dto.StudentDto
     public class AddStudentDto
     {
         public int Id { get; set; }
+        public string UserName { get; set; } = string.Empty;
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
         public string Gender { get; set; } = string.Empty;
@@ -19,7 +20,8 @@ namespace student_management.Dto.StudentDto
         public EnrollmentClass EnrollmentType { get; set; }
         public List<Course>? Course { get; set; }
         public Department? Department { get; set; }
-
-        public DateTime RegistrationDate { get; set; }
+  public byte[] PasswordHash { get; set; } = new byte[0];
+        public byte[] PasswordSalt { get; set; } = new byte[0];
+        
     }
 }

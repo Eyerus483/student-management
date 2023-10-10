@@ -17,7 +17,7 @@ namespace student_management.Auth
             _Context = context;
 
         }
-        public async Task<ServiceResponse<string>> Login(string userName, string password)
+        public async Task<ServiceResponse<string>> AdminLogin(string userName, string password)
         {
             var respone = new ServiceResponse<string>();
             var user = await _Context.Admins.FirstOrDefaultAsync(u => u.UserName.ToLower().Equals(userName.ToLower()));
@@ -29,15 +29,15 @@ namespace student_management.Auth
             }
             else
             {
-                respone.Data = CreateToken(user);
+                respone.Data = CreateToken(user.Id, user.UserName);
             }
             return respone;
         }
 
-        public async Task<ServiceResponse<int>> Register(Admin admin, string password)
+        public async Task<ServiceResponse<int>> AdminRegister(Admin admin, string password)
         {
             var response = new ServiceResponse<int>();
-            if (await UserExistes(admin.UserName))
+            if (await _Context.Admins.AnyAsync(u => u.UserName.ToLower() == admin.UserName.ToLower()))
             {
                 response.Success = false;
                 response.Message = "User already exists.";
@@ -51,16 +51,42 @@ namespace student_management.Auth
             response.Data = admin.Id;
             return response;
         }
-
-        public async Task<bool> UserExistes(string userName)
+public async Task<ServiceResponse<string>> StudentLogin(string userName, string password)
         {
-            if (await _Context.Admins.AnyAsync(u => u.UserName.ToLower() == userName.ToLower()))
+            var respone = new ServiceResponse<string>();
+            var user = await _Context.Students.FirstOrDefaultAsync(u => u.UserName.ToLower().Equals(userName.ToLower()));
+            if ((user is null) || !VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
             {
-                return true;
+                respone.Success = false;
+                respone.Message = "Incorrect UserName or Password";
+
             }
-            return false;
+            else
+            {
+                respone.Data = CreateToken(user.Id, user.UserName);
+            }
+            return respone;
         }
 
+        public async Task<ServiceResponse<int>> StudentRegister(Student student, string password)
+        {
+            var response = new ServiceResponse<int>();
+            if (await _Context.Students.AnyAsync(u => u.UserName.ToLower() == student.UserName.ToLower()))
+            {
+                response.Success = false;
+                response.Message = "Student already exists.";
+                return response;
+            }
+            CreatePasswordHash(password, out byte[] passwordHash, out byte[] passwordSalt);
+            student.PasswordHash = passwordHash;
+            student.PasswordSalt = passwordSalt;
+            _Context.Students.Add(student);
+            await _Context.SaveChangesAsync();
+            response.Data = student.Id;
+            return response;
+        }
+
+       
         public void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
             using (var hmac = new System.Security.Cryptography.HMACSHA512())
@@ -78,12 +104,12 @@ namespace student_management.Auth
                 return computedHash.SequenceEqual(passwordHash);
             }
         }
-        private string CreateToken(Admin admin)
+        private string CreateToken(int id, string userName)
         {
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.NameIdentifier, admin.Id.ToString()),
-            new Claim(ClaimTypes.Name, admin.UserName)
+                new Claim(ClaimTypes.NameIdentifier, id.ToString()),
+            new Claim(ClaimTypes.Name, userName)
         };
             var appsettingstoken = _Configuration.GetSection("AppSettings:Token").Value;
             if(appsettingstoken is null)
