@@ -9,7 +9,7 @@ namespace student_management.Dto.DepartmentDto
         public string BlockNumber { get; set; } = string.Empty;
         public byte[] PasswordHash { get; set; } = new byte[0];
         public byte[] PasswordSalt { get; set; } = new byte[0];
-        public DateTime YearOfEstablishment { get; set; }
+        public int YearOfEstablishment { get; set; }
         public List<Student>? Students { get; set; }
     }
 }

@@ -1,8 +1,10 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using student_management.Data;
+using student_management.Dto.StudentDto;
 using student_management.Model;
 
 namespace student_management.Auth
@@ -11,8 +13,10 @@ namespace student_management.Auth
 {
         public readonly DataContext _Context;
         public readonly IConfiguration _Configuration;
-        public AuthRepository(DataContext context, IConfiguration configuration)
+        private readonly IMapper _mapper;
+        public AuthRepository(DataContext context, IConfiguration configuration, IMapper mapper)
         {
+            _mapper = mapper;
             _Configuration = configuration;
             _Context = context;
 
@@ -29,7 +33,7 @@ namespace student_management.Auth
             }
             else
             {
-                respone.Data = CreateToken(user.Id, user.UserName);
+                respone.Data = CreateToken(user.Id, user.UserName, "Admin");
             }
             return respone;
         }
@@ -63,21 +67,22 @@ public async Task<ServiceResponse<string>> StudentLogin(string userName, string 
             }
             else
             {
-                respone.Data = CreateToken(user.Id, user.UserName);
+                respone.Data = CreateToken(user.Id, user.UserName, "Student");
             }
             return respone;
         }
 
-        public async Task<ServiceResponse<int>> StudentRegister(Student student, string password)
+        public async Task<ServiceResponse<int>> StudentRegister(AddStudentDto request)
         {
             var response = new ServiceResponse<int>();
+            var student = _mapper.Map<Student>(request);
             if (await _Context.Students.AnyAsync(u => u.UserName.ToLower() == student.UserName.ToLower()))
             {
                 response.Success = false;
                 response.Message = "Student already exists.";
                 return response;
             }
-            CreatePasswordHash(password, out byte[] passwordHash, out byte[] passwordSalt);
+            CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
             student.PasswordHash = passwordHash;
             student.PasswordSalt = passwordSalt;
             _Context.Students.Add(student);
@@ -104,12 +109,13 @@ public async Task<ServiceResponse<string>> StudentLogin(string userName, string 
                 return computedHash.SequenceEqual(passwordHash);
             }
         }
-        private string CreateToken(int id, string userName)
+        private string CreateToken(int id, string userName, string role)
         {
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, id.ToString()),
-            new Claim(ClaimTypes.Name, userName)
+            new Claim(ClaimTypes.Name, userName),
+            new Claim(ClaimTypes.Role, role)
         };
             var appsettingstoken = _Configuration.GetSection("AppSettings:Token").Value;
             if(appsettingstoken is null)
@@ -119,7 +125,7 @@ public async Task<ServiceResponse<string>> StudentLogin(string userName, string 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.Now.AddHours(4),
+                Expires = DateTime.UtcNow.AddHours(4),
                 SigningCredentials = creds
             };
             JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
