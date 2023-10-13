@@ -8,19 +8,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace student_management.Migrations
 {
     /// <inheritdoc />
-    public partial class DataSeeding : Migration
+    public partial class DataSeed : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AlterColumn<int>(
-                name: "YearOfEstablishment",
-                table: "Departments",
-                type: "int",
-                nullable: false,
-                oldClrType: typeof(DateTime),
-                oldType: "datetime2");
-
             migrationBuilder.AlterColumn<DateTime>(
                 name: "UpdatedAt",
                 table: "Departments",
@@ -110,14 +102,6 @@ namespace student_management.Migrations
                 table: "Departments",
                 keyColumn: "Id",
                 keyValue: 3);
-
-            migrationBuilder.AlterColumn<DateTime>(
-                name: "YearOfEstablishment",
-                table: "Departments",
-                type: "datetime2",
-                nullable: false,
-                oldClrType: typeof(int),
-                oldType: "int");
 
             migrationBuilder.AlterColumn<DateTime>(
                 name: "UpdatedAt",

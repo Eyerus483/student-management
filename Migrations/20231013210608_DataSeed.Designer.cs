@@ -12,8 +12,8 @@ using student_management.Data;
 namespace student_management.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20231012003356_Enities")]
-    partial class Enities
+    [Migration("20231013210608_DataSeed")]
+    partial class DataSeed
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -95,7 +95,9 @@ namespace student_management.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.Property<int>("CreditHours")
                         .HasColumnType("int");
@@ -120,11 +122,54 @@ namespace student_management.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
+                        .ValueGeneratedOnUpdate()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.HasKey("Id");
 
                     b.ToTable("Courses");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CourseCode = "202",
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreditHours = 4,
+                            Decription = "Algorizm",
+                            Hours = 14,
+                            Lecturer = "Fasica",
+                            TargetGroup = "abc",
+                            Title = "Data Structure",
+                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CourseCode = "203",
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreditHours = 4,
+                            Decription = "Acd",
+                            Hours = 14,
+                            Lecturer = "Fasica",
+                            TargetGroup = "abc",
+                            Title = "English",
+                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CourseCode = "204",
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreditHours = 4,
+                            Decription = "Acd",
+                            Hours = 14,
+                            Lecturer = "Fasica",
+                            TargetGroup = "abc",
+                            Title = "Maths",
+                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        });
                 });
 
             modelBuilder.Entity("student_management.Model.Department", b =>
@@ -140,7 +185,9 @@ namespace student_management.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.Property<string>("DepartmentName")
                         .IsRequired()
@@ -158,18 +205,61 @@ namespace student_management.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
+                        .ValueGeneratedOnUpdate()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.Property<string>("UserName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("YearOfEstablishment")
-                        .HasColumnType("datetime2");
+                    b.Property<int>("YearOfEstablishment")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.ToTable("Departments");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            BlockNumber = "104",
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DepartmentName = "Electrical Enginering",
+                            PasswordHash = new byte[0],
+                            PasswordSalt = new byte[0],
+                            ROle = 2,
+                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            UserName = "xyz",
+                            YearOfEstablishment = 1999
+                        },
+                        new
+                        {
+                            Id = 2,
+                            BlockNumber = "105",
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DepartmentName = "Computer Enginering",
+                            PasswordHash = new byte[0],
+                            PasswordSalt = new byte[0],
+                            ROle = 2,
+                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            UserName = "abcd",
+                            YearOfEstablishment = 1999
+                        },
+                        new
+                        {
+                            Id = 3,
+                            BlockNumber = "106",
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DepartmentName = "Agricalture",
+                            PasswordHash = new byte[0],
+                            PasswordSalt = new byte[0],
+                            ROle = 2,
+                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            UserName = "hijk",
+                            YearOfEstablishment = 1999
+                        });
                 });
 
             modelBuilder.Entity("student_management.Model.Student", b =>
