@@ -1,4 +1,5 @@
 using AutoMapper;
+using student_management.Dto.AdminDto;
 using student_management.Dto.StudentDto;
 using student_management.Model;
 
@@ -9,6 +10,7 @@ namespace student_management
         public AutoMapperProfile()
         {
             CreateMap<AddStudentDto, Student>();
+            CreateMap<Admin, GetAdminDto> ();
         }
     }
 }

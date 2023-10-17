@@ -25,7 +25,7 @@ namespace student_management.Controllers
        
 
        [HttpPost("Login")]
-    public async Task<ActionResult<ServiceResponse<string>>> Login(UserLoginDto request){
+    public async Task<ActionResult<ServiceResponse<GetAdminDto>>> Login(UserLoginDto request){
             var response = await _authRepository.AdminLogin(request.UserName, request.Password);
               if(!response.Success)
             {

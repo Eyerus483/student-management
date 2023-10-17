@@ -4,6 +4,7 @@ using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using student_management.Data;
+using student_management.Dto.AdminDto;
 using student_management.Dto.StudentDto;
 using student_management.Model;
 
@@ -21,9 +22,9 @@ namespace student_management.Auth
             _Context = context;
 
         }
-        public async Task<ServiceResponse<string>> AdminLogin(string userName, string password)
+        public async Task<ServiceResponse<GetAdminDto>> AdminLogin(string userName, string password)
         {
-            var respone = new ServiceResponse<string>();
+            var respone = new ServiceResponse<GetAdminDto>();
             var user = await _Context.Admins.FirstOrDefaultAsync(u => u.UserName.ToLower().Equals(userName.ToLower()));
             if ((user is null) || !VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
             {
@@ -33,7 +34,10 @@ namespace student_management.Auth
             }
             else
             {
-                respone.Data = CreateToken(user.Id, user.UserName, "Admin");
+                string token = CreateToken(user.Id, user.UserName, "Admin");
+                GetAdminDto getAdmin = _mapper.Map<GetAdminDto>(user);
+                getAdmin.Token = token;
+                respone.Data = getAdmin;
             }
             return respone;
         }
