@@ -27,7 +27,18 @@ builder.Services.AddSwaggerGen(
     }
 );
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
-builder.Services.AddDbContext<DataContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// if(builder.Environment.IsDevelopment())
+// {
+//builder.Services.AddDbContext<DataContext>(options => 
+  // options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+// }
+// else
+//{
+    builder.Services.AddDbContext<DataContext>(options => 
+       options.UseNpgsql(builder.Configuration.GetConnectionString("PostgresConnection")));
+//}
+
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 .AddJwtBearer(options =>
