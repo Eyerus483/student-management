@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using student_management.Auth;
 using student_management.Dto.AdminDto;
+using student_management.Dto.StudentDto;
 using student_management.Model;
 
 namespace student_management.Controllers
@@ -20,7 +21,7 @@ namespace student_management.Controllers
             
         }
       [HttpPost("Login")]
-    public async Task<ActionResult<ServiceResponse<string>>> Login(UserLoginDto request){
+    public async Task<ActionResult<ServiceResponse<GetStudentDto>>> Login(UserLoginDto request){
             var response = await _authRepository.StudentLogin(request.UserName, request.Password);
               if(!response.Success)
             {

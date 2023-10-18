@@ -43,10 +43,22 @@ namespace student_management.Controllers
 
             return Ok(response); 
        }
-[Authorize(Roles = "Admin")]
+       [Authorize(Roles = "Admin")]
        [HttpPost("Register/Student")]
        public async Task<ActionResult<ServiceResponse<int>>> RegisterStudent(AddStudentDto request){
             var response = await _authRepository.StudentRegister(request);
+            if(!response.Success)
+            {
+                return BadRequest(response);
+            }
+
+            return Ok(response); 
+       }
+       
+       [Authorize(Roles = "Admin")]
+       [HttpGet("Profile")]
+       public async Task<ActionResult<ServiceResponse<GetAdminDto>>> GetProfile(int id){
+            var response = await _authRepository.GetProfile(id);
             if(!response.Success)
             {
                 return BadRequest(response);

@@ -56,12 +56,12 @@ namespace student_management.Auth
             admin.PasswordSalt = passwordSalt;
             _Context.Admins.Add(admin);
             await _Context.SaveChangesAsync();
-            response.Data = admin.Id;
+            response.Message = "Sucessfuly registered";
             return response;
         }
-public async Task<ServiceResponse<string>> StudentLogin(string userName, string password)
+public async Task<ServiceResponse<GetStudentDto>> StudentLogin(string userName, string password)
         {
-            var respone = new ServiceResponse<string>();
+            var respone = new ServiceResponse<GetStudentDto>();
             var user = await _Context.Students.FirstOrDefaultAsync(u => u.UserName.ToLower().Equals(userName.ToLower()));
             if ((user is null) || !VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
             {
@@ -71,7 +71,11 @@ public async Task<ServiceResponse<string>> StudentLogin(string userName, string 
             }
             else
             {
-                respone.Data = CreateToken(user.Id, user.UserName, "Student");
+                
+                string token = CreateToken(user.Id, user.UserName, "Student");
+                GetStudentDto getStudent = _mapper.Map<GetStudentDto>(user);
+                getStudent.Token = token;
+                respone.Data = getStudent;
             }
             return respone;
         }
@@ -91,7 +95,7 @@ public async Task<ServiceResponse<string>> StudentLogin(string userName, string 
             student.PasswordSalt = passwordSalt;
             _Context.Students.Add(student);
             await _Context.SaveChangesAsync();
-            response.Data = student.Id;
+            response.Message = "Sucessfuly registered";
             return response;
         }
 
@@ -137,5 +141,21 @@ public async Task<ServiceResponse<string>> StudentLogin(string userName, string 
             return tokenHandler.WriteToken(token);
         }
 
+        public async Task<ServiceResponse<GetAdminDto>> GetProfile(int id)
+        {
+            var respone = new ServiceResponse<GetAdminDto>();
+            var user = await _Context.Admins.FirstOrDefaultAsync(u => u.Id.Equals(id));
+            if (user is null)
+            {
+                respone.Success = false;
+                respone.Message = "User not found";
+
+            }
+            else
+            {
+                respone.Data = _mapper.Map<GetAdminDto>(user);
+            }
+            return respone;
+        }
     }
 }
