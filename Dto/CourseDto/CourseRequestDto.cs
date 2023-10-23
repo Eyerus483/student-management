@@ -2,7 +2,7 @@ using student_management.Model;
 
 namespace student_management.Dto.CourseDto
 {
-    public class AddCourseDto
+    public class CourseRequestDto
     {
         public string Title { get; set; } = string.Empty;
         public string Decription { get; set; } = string.Empty;

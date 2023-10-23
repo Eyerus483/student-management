@@ -21,7 +21,7 @@ namespace student_management.Controllers
             
         }
       [HttpPost("Login")]
-    public async Task<ActionResult<ServiceResponse<GetStudentDto>>> Login(UserLoginDto request){
+    public async Task<ActionResult<ServiceResponse<StudentResponseDto>>> Login(UserLoginDto request){
             var response = await _authRepository.StudentLogin(request.UserName, request.Password);
               if(!response.Success)
             {

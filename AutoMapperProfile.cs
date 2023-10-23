@@ -9,9 +9,9 @@ namespace student_management
     {
         public AutoMapperProfile()
         {
-            CreateMap<AddStudentDto, Student>();
-            CreateMap<Admin, GetAdminDto> ();
-            CreateMap<Student, GetStudentDto> ();
+            CreateMap<StudentRequestDto, Student>();
+            CreateMap<Admin, AdminResponseDto> ();
+            CreateMap<Student, StudentResponseDto> ();
         }
     }
 }
