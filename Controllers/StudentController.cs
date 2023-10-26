@@ -29,6 +29,18 @@ namespace student_management.Controllers
             }
             return Ok(response);
     }
+    
+       [HttpGet("profile")]
+       public async Task<ActionResult<ServiceResponse<StudentResponseDto>>> GetStudentProfile(int id){
+            var response = await _authRepository.GetStudentProfile(id);
+            if(!response.Success)
+            {
+                return BadRequest(response);
+            }
+
+            return Ok(response); 
+       }
+       
     }
   
 }

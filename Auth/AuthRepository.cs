@@ -141,21 +141,37 @@ public async Task<ServiceResponse<StudentResponseDto>> StudentLogin(string userN
             return tokenHandler.WriteToken(token);
         }
 
-        public async Task<ServiceResponse<AdminResponseDto>> GetProfile(int id)
+        public async Task<ServiceResponse<AdminResponseDto>> GetAdminProfile(int id)
         {
-            var respone = new ServiceResponse<AdminResponseDto>();
+            var response = new ServiceResponse<AdminResponseDto>();
             var user = await _Context.Admins.FirstOrDefaultAsync(u => u.Id.Equals(id));
             if (user is null)
             {
-                respone.Success = false;
-                respone.Message = "User not found";
+                response.Success = false;
+                response.Message = "User not found";
 
             }
             else
             {
-                respone.Data = _mapper.Map<AdminResponseDto>(user);
+                response.Data = _mapper.Map<AdminResponseDto>(user);
             }
-            return respone;
+            return response;
+        }
+
+        public async Task<ServiceResponse<StudentResponseDto>> GetStudentProfile(int id)
+        {
+            var response = new ServiceResponse<StudentResponseDto>();
+            var user = await _Context.Students.FirstOrDefaultAsync(u => u.Id.Equals(id));
+            if (user is null)
+            {
+                response.Success = false;
+                response.Message = "Student not found";
+            }
+            else
+            {
+                response.Data = _mapper.Map<StudentResponseDto>(user);
+            }
+            return response;
         }
     }
 }

@@ -43,6 +43,7 @@ namespace student_management.Controllers
 
             return Ok(response); 
        }
+       
        [Authorize(Roles = "Admin")]
        [HttpPost("student/register")]
        public async Task<ActionResult<ServiceResponse<int>>> RegisterStudent(StudentRequestDto request){
@@ -58,7 +59,7 @@ namespace student_management.Controllers
        [Authorize(Roles = "Admin")]
        [HttpGet("profile")]
        public async Task<ActionResult<ServiceResponse<AdminResponseDto>>> GetProfile(int id){
-            var response = await _authRepository.GetProfile(id);
+            var response = await _authRepository.GetAdminProfile(id);
             if(!response.Success)
             {
                 return BadRequest(response);
