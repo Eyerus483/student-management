@@ -20,6 +20,7 @@ namespace student_management.Dto.StudentDto
         public EnrollmentClass EnrollmentType { get; set; }
         public List<Course>? Course { get; set; }
         public Department? Department { get; set; }
+        public DateTime RegistrationDate { get; set; }
         public string Password { get; set; } = string.Empty;
        
         
