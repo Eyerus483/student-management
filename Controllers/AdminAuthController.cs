@@ -24,7 +24,7 @@ namespace student_management.Controllers
 
        
 
-       [HttpPost("Login")]
+       [HttpPost("login")]
     public async Task<ActionResult<ServiceResponse<AdminResponseDto>>> Login(UserLoginDto request){
             var response = await _authRepository.AdminLogin(request.UserName, request.Password);
               if(!response.Success)
@@ -33,7 +33,7 @@ namespace student_management.Controllers
             }
             return Ok(response);
     }
-[HttpPost("Register")]
+[HttpPost("register")]
        public async Task<ActionResult<ServiceResponse<int>>> Register(AdminRequestDto request){
             var response = await _authRepository.AdminRegister(new Admin { UserName = request.UserName, FirstName = request.FirstName, LastName = request.LastName }, request.Password);
             if(!response.Success)
@@ -44,7 +44,7 @@ namespace student_management.Controllers
             return Ok(response); 
        }
        [Authorize(Roles = "Admin")]
-       [HttpPost("Register/Student")]
+       [HttpPost("student/register")]
        public async Task<ActionResult<ServiceResponse<int>>> RegisterStudent(StudentRequestDto request){
             var response = await _authRepository.StudentRegister(request);
             if(!response.Success)
@@ -56,7 +56,7 @@ namespace student_management.Controllers
        }
        
        [Authorize(Roles = "Admin")]
-       [HttpGet("Profile")]
+       [HttpGet("profile")]
        public async Task<ActionResult<ServiceResponse<AdminResponseDto>>> GetProfile(int id){
             var response = await _authRepository.GetProfile(id);
             if(!response.Success)
