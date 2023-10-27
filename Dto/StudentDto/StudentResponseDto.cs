@@ -22,8 +22,8 @@ namespace student_management.Dto.StudentDto
         public List<Course>? Course { get; set; }
         public Department? Department { get; set; }
         public DateTime RegistrationDate { get; set; }
-        public DateTime CreatedOn { get; set; }
-        public DateTime UpdatedOn { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
 
         
     }

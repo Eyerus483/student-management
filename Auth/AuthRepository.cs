@@ -22,16 +22,16 @@ namespace student_management.Auth
             _Context = context;
 
         }
-        public async Task<ServiceResponse<AdminResponseDto>> AdminLogin(string userName, string password)
+       
         public async Task<ServiceResponse<AdminResponseDto>> AdminLogin(string userName, string password)
         {
-            var respone = new ServiceResponse<AdminResponseDto>();
-            var respone = new ServiceResponse<AdminResponseDto>();
+            
+            var response = new ServiceResponse<AdminResponseDto>();
             var user = await _Context.Admins.FirstOrDefaultAsync(u => u.UserName.ToLower().Equals(userName.ToLower()));
             if ((user is null) || !VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
             {
-                respone.Success = false;
-                respone.Message = "Incorrect UserName or Password";
+                response.Success = false;
+                response.Message = "Incorrect UserName or Password";
 
             }
             else
@@ -39,9 +39,9 @@ namespace student_management.Auth
                 string token = CreateToken(user.Id, user.UserName, "Admin");
                 AdminResponseDto getAdmin = _mapper.Map<AdminResponseDto>(user);
                 getAdmin.Token = token;
-                respone.Data = getAdmin;
+                response.Data = getAdmin;
             }
-            return respone;
+            return response;
         }
 
         public async Task<ServiceResponse<int>> AdminRegister(Admin admin, string password)
@@ -145,7 +145,7 @@ public async Task<ServiceResponse<StudentResponseDto>> StudentLogin(string userN
 
         public async Task<ServiceResponse<AdminProfileResponseDto>> GetAdminProfile(int id)
         {
-            var respone = new ServiceResponse<AdminProfileResponseDto>();
+            var response = new ServiceResponse<AdminProfileResponseDto>();
             var user = await _Context.Admins.FirstOrDefaultAsync(u => u.Id.Equals(id));
             if (user is null)
             {
@@ -155,9 +155,9 @@ public async Task<ServiceResponse<StudentResponseDto>> StudentLogin(string userN
             }
             else
             {
-                respone.Data = _mapper.Map<AdminProfileResponseDto>(user);
+                response.Data = _mapper.Map<AdminProfileResponseDto>(user);
             }
-            return respone;
+            return response;
         }
         public async Task<ServiceResponse<StudentProfileResponseDto>> GetStudentProfile(int id)
         {
