@@ -20,8 +20,8 @@ namespace student_management.Controllers
             _authRepository = authRepository;
             
         }
-      [HttpPost("Login")]
-    public async Task<ActionResult<ServiceResponse<StudentResponseDto>>> login(UserLoginDto request){
+      [HttpPost("login")]
+    public async Task<ActionResult<ServiceResponse<StudentResponseDto>>> Login(UserLoginDto request){
             var response = await _authRepository.StudentLogin(request.UserName, request.Password);
               if(!response.Success)
             {

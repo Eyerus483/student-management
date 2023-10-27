@@ -1,14 +1,11 @@
-namespace student_management.Model
+namespace student_management.Dto.AdminDto
 {
-    public class Admin
+    public class AdminProfileResponse
     {
         public int Id { get; set; }
         public string UserName { get; set; } = string.Empty;
-        public Role Role { get; set; } = Role.Admin;
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
-        public byte[] PasswordHash { get; set; } = new byte[0];
-        public byte[] PasswordSalt { get; set; } = new byte[0];
         public DateTime CreatedOn { get; set; }
         public DateTime UpdatedOn { get; set; }
     }

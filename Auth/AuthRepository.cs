@@ -23,7 +23,9 @@ namespace student_management.Auth
 
         }
         public async Task<ServiceResponse<AdminResponseDto>> AdminLogin(string userName, string password)
+        public async Task<ServiceResponse<AdminResponseDto>> AdminLogin(string userName, string password)
         {
+            var respone = new ServiceResponse<AdminResponseDto>();
             var respone = new ServiceResponse<AdminResponseDto>();
             var user = await _Context.Admins.FirstOrDefaultAsync(u => u.UserName.ToLower().Equals(userName.ToLower()));
             if ((user is null) || !VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
@@ -147,8 +149,8 @@ public async Task<ServiceResponse<StudentResponseDto>> StudentLogin(string userN
             var user = await _Context.Admins.FirstOrDefaultAsync(u => u.Id.Equals(id));
             if (user is null)
             {
-                respone.Success = false;
-                respone.Message = "User not found";
+                response.Success = false;
+                response.Message = "User not found";
 
             }
             else
