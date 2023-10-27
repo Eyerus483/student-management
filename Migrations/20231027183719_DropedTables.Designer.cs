@@ -12,8 +12,8 @@ using student_management.Data;
 namespace student_management.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20231017171030_InitialPostgressql")]
-    partial class InitialPostgressql
+    [Migration("20231027183719_DropedTables")]
+    partial class DropedTables
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

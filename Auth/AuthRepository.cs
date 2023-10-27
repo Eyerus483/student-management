@@ -22,9 +22,9 @@ namespace student_management.Auth
             _Context = context;
 
         }
-        public async Task<ServiceResponse<GetAdminDto>> AdminLogin(string userName, string password)
+        public async Task<ServiceResponse<AdminResponseDto>> AdminLogin(string userName, string password)
         {
-            var respone = new ServiceResponse<GetAdminDto>();
+            var respone = new ServiceResponse<AdminResponseDto>();
             var user = await _Context.Admins.FirstOrDefaultAsync(u => u.UserName.ToLower().Equals(userName.ToLower()));
             if ((user is null) || !VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
             {
@@ -35,7 +35,7 @@ namespace student_management.Auth
             else
             {
                 string token = CreateToken(user.Id, user.UserName, "Admin");
-                GetAdminDto getAdmin = _mapper.Map<GetAdminDto>(user);
+                AdminResponseDto getAdmin = _mapper.Map<AdminResponseDto>(user);
                 getAdmin.Token = token;
                 respone.Data = getAdmin;
             }
@@ -59,9 +59,9 @@ namespace student_management.Auth
             response.Message = "Sucessfuly registered";
             return response;
         }
-public async Task<ServiceResponse<GetStudentDto>> StudentLogin(string userName, string password)
+public async Task<ServiceResponse<StudentResponseDto>> StudentLogin(string userName, string password)
         {
-            var respone = new ServiceResponse<GetStudentDto>();
+            var respone = new ServiceResponse<StudentResponseDto>();
             var user = await _Context.Students.FirstOrDefaultAsync(u => u.UserName.ToLower().Equals(userName.ToLower()));
             if ((user is null) || !VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
             {
@@ -73,14 +73,14 @@ public async Task<ServiceResponse<GetStudentDto>> StudentLogin(string userName, 
             {
                 
                 string token = CreateToken(user.Id, user.UserName, "Student");
-                GetStudentDto getStudent = _mapper.Map<GetStudentDto>(user);
+                StudentResponseDto getStudent = _mapper.Map<StudentResponseDto>(user);
                 getStudent.Token = token;
                 respone.Data = getStudent;
             }
             return respone;
         }
 
-        public async Task<ServiceResponse<int>> StudentRegister(AddStudentDto request)
+        public async Task<ServiceResponse<int>> StudentRegister(StudentRequestDto request)
         {
             var response = new ServiceResponse<int>();
             var student = _mapper.Map<Student>(request);
@@ -141,9 +141,9 @@ public async Task<ServiceResponse<GetStudentDto>> StudentLogin(string userName, 
             return tokenHandler.WriteToken(token);
         }
 
-        public async Task<ServiceResponse<GetAdminDto>> GetProfile(int id)
+        public async Task<ServiceResponse<AdminProfileResponseDto>> GetAdminProfile(int id)
         {
-            var respone = new ServiceResponse<GetAdminDto>();
+            var respone = new ServiceResponse<AdminProfileResponseDto>();
             var user = await _Context.Admins.FirstOrDefaultAsync(u => u.Id.Equals(id));
             if (user is null)
             {
@@ -153,9 +153,24 @@ public async Task<ServiceResponse<GetStudentDto>> StudentLogin(string userName, 
             }
             else
             {
-                respone.Data = _mapper.Map<GetAdminDto>(user);
+                respone.Data = _mapper.Map<AdminProfileResponseDto>(user);
             }
             return respone;
+        }
+        public async Task<ServiceResponse<StudentProfileResponseDto>> GetStudentProfile(int id)
+        {
+            var response = new ServiceResponse<StudentProfileResponseDto>();
+            var user = await _Context.Students.FirstOrDefaultAsync(u => u.Id.Equals(id));
+            if (user is null)
+            {
+                response.Success = false;
+                response.Message = "Student not found";
+            }
+            else
+            {
+                response.Data = _mapper.Map<StudentProfileResponseDto>(user);
+            }
+            return response;
         }
     }
 }

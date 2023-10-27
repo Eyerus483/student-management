@@ -7,10 +7,11 @@ namespace student_management.Auth
     public interface IAuthRepository
     {
         Task<ServiceResponse<int>> AdminRegister(Admin admin, string password);
-        Task<ServiceResponse<GetAdminDto>> AdminLogin(string userName, string password);
-        Task<ServiceResponse<int>> StudentRegister(AddStudentDto request);
-        Task<ServiceResponse<GetStudentDto>> StudentLogin(string userName, string password);
-        Task<ServiceResponse<GetAdminDto>> GetProfile(int id);
-      
+        Task<ServiceResponse<AdminResponseDto>> AdminLogin(string userName, string password);
+        Task<ServiceResponse<int>> StudentRegister(StudentRequestDto request);
+        Task<ServiceResponse<StudentResponseDto>> StudentLogin(string userName, string password);
+        Task<ServiceResponse<AdminProfileResponseDto>> GetAdminProfile(int id);
+        Task<ServiceResponse<StudentProfileResponseDto>> GetStudentProfile(int id);
+
     }
 }

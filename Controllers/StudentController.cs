@@ -21,7 +21,7 @@ namespace student_management.Controllers
             
         }
       [HttpPost("Login")]
-    public async Task<ActionResult<ServiceResponse<GetStudentDto>>> Login(UserLoginDto request){
+    public async Task<ActionResult<ServiceResponse<StudentResponseDto>>> login(UserLoginDto request){
             var response = await _authRepository.StudentLogin(request.UserName, request.Password);
               if(!response.Success)
             {
@@ -29,6 +29,17 @@ namespace student_management.Controllers
             }
             return Ok(response);
     }
+
+    [HttpGet("profile")]
+       public async Task<ActionResult<ServiceResponse<StudentProfileResponseDto>>> GetStudentProfile(int id){
+            var response = await _authRepository.GetStudentProfile(id);
+            if(!response.Success)
+            {
+                return BadRequest(response);
+            }
+
+            return Ok(response); 
+       }
     }
   
 }

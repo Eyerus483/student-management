@@ -2,7 +2,7 @@ using student_management.Model;
 
 namespace student_management.Dto.StudentDto
 {
-    public class GetStudentDto
+    public class StudentResponseDto
     {
         public int Id { get; set; }
         public string UserName { get; set; } = string.Empty;

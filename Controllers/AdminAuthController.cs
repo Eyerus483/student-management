@@ -22,10 +22,8 @@ namespace student_management.Controllers
         
        } 
 
-       
-
-       [HttpPost("Login")]
-    public async Task<ActionResult<ServiceResponse<GetAdminDto>>> Login(UserLoginDto request){
+       [HttpPost("login")]
+    public async Task<ActionResult<ServiceResponse<AdminResponseDto>>> Login(UserLoginDto request){
             var response = await _authRepository.AdminLogin(request.UserName, request.Password);
               if(!response.Success)
             {
@@ -33,8 +31,8 @@ namespace student_management.Controllers
             }
             return Ok(response);
     }
-[HttpPost("Register")]
-       public async Task<ActionResult<ServiceResponse<int>>> Register(AddAdminDto request){
+[HttpPost("register")]
+       public async Task<ActionResult<ServiceResponse<int>>> Register(AdminRequestDto request){
             var response = await _authRepository.AdminRegister(new Admin { UserName = request.UserName, FirstName = request.FirstName, LastName = request.LastName }, request.Password);
             if(!response.Success)
             {
@@ -43,29 +41,5 @@ namespace student_management.Controllers
 
             return Ok(response); 
        }
-       [Authorize(Roles = "Admin")]
-       [HttpPost("Register/Student")]
-       public async Task<ActionResult<ServiceResponse<int>>> RegisterStudent(AddStudentDto request){
-            var response = await _authRepository.StudentRegister(request);
-            if(!response.Success)
-            {
-                return BadRequest(response);
-            }
-
-            return Ok(response); 
-       }
-       
-       [Authorize(Roles = "Admin")]
-       [HttpGet("Profile")]
-       public async Task<ActionResult<ServiceResponse<GetAdminDto>>> GetProfile(int id){
-            var response = await _authRepository.GetProfile(id);
-            if(!response.Success)
-            {
-                return BadRequest(response);
-            }
-
-            return Ok(response); 
-       }
-       
     }
 }

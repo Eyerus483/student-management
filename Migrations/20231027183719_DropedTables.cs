@@ -9,7 +9,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace student_management.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialPostgressql : Migration
+    public partial class DropedTables : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
