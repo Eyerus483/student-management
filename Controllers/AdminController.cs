@@ -6,8 +6,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using student_management.Auth;
 using student_management.Dto.AdminDto;
+using student_management.Dto.DashboardDto;
 using student_management.Dto.StudentDto;
 using student_management.Model;
+using student_management.Repository.UnitOfWorkRepo;
 
 namespace student_management.Controllers
 {
@@ -16,8 +18,10 @@ namespace student_management.Controllers
     public class AdminController : ControllerBase
     {
         private readonly IAuthRepository _authRepository;
-        public AdminController(IAuthRepository authRepository)
+        private readonly IUnitOfWork _unitOfWork;
+        public AdminController(IAuthRepository authRepository, IUnitOfWork unitOfWork)
         {
+            _unitOfWork = unitOfWork;
             _authRepository = authRepository;
             
         }
@@ -46,5 +50,17 @@ namespace student_management.Controllers
             return Ok(response); 
        }
        
+       [HttpGet("dashboard")]
+
+      public async Task<ActionResult<ServiceResponse<AdminDashboardResponseDto>>> GetAdminDashboard(){
+
+            var response = await _unitOfWork.Admin.GetAdminDashboard();
+        if(!response.Success)
+        {
+                return BadRequest(response);
+        }
+            return Ok(response);
+
+      } 
     }
 }
