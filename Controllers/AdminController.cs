@@ -23,44 +23,47 @@ namespace student_management.Controllers
         {
             _unitOfWork = unitOfWork;
             _authRepository = authRepository;
-            
+
         }
-      
-       [Authorize(Roles = "Admin")]
-       [HttpPost("student/register")]
-       public async Task<ActionResult<ServiceResponse<int>>> RegisterStudent(StudentRequestDto request){
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost("student/register")]
+        public async Task<ActionResult<ServiceResponse<int>>> RegisterStudent(StudentRequestDto request)
+        {
             var response = await _authRepository.StudentRegister(request);
-            if(!response.Success)
+            if (!response.Success)
             {
                 return BadRequest(response);
             }
 
-            return Ok(response); 
-       }
-       
-       [Authorize(Roles = "Admin")]
-       [HttpGet("profile")]
-       public async Task<ActionResult<ServiceResponse<AdminProfileResponseDto>>> GetProfile(int id){
+            return Ok(response);
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpGet("profile")]
+        public async Task<ActionResult<ServiceResponse<AdminProfileResponseDto>>> GetProfile(int id)
+        {
             var response = await _authRepository.GetAdminProfile(id);
-            if(!response.Success)
+            if (!response.Success)
             {
                 return BadRequest(response);
             }
 
-            return Ok(response); 
-       }
-       
-       [HttpGet("dashboard")]
+            return Ok(response);
+        }
 
-      public async Task<ActionResult<ServiceResponse<AdminDashboardResponseDto>>> GetAdminDashboard(){
+        [HttpGet("dashboard")]
+
+        public async Task<ActionResult<ServiceResponse<AdminDashboardResponseDto>>> GetAdminDashboard()
+        {
 
             var response = await _unitOfWork.Admin.GetAdminDashboard();
-        if(!response.Success)
-        {
+            if (!response.Success)
+            {
                 return BadRequest(response);
-        }
+            }
             return Ok(response);
 
-      } 
+        }
     }
 }
