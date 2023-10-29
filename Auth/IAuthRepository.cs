@@ -10,7 +10,7 @@ namespace student_management.Auth
         Task<ServiceResponse<AdminResponseDto>> AdminLogin(string userName, string password);
         Task<ServiceResponse<int>> StudentRegister(StudentRequestDto request);
         Task<ServiceResponse<StudentResponseDto>> StudentLogin(string userName, string password);
-        Task<ServiceResponse<AdminProfileResponseDto>> GetAdminProfile(int id);
+        Task<ServiceResponse<AdminProfileResponseDto>> GetAdminProfile(string pid);
         Task<ServiceResponse<StudentProfileResponseDto>> GetStudentProfile(int id);
 
     }

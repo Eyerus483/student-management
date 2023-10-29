@@ -41,9 +41,9 @@ namespace student_management.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpGet("profile")]
-        public async Task<ActionResult<ServiceResponse<AdminProfileResponseDto>>> GetProfile(int id)
+        public async Task<ActionResult<ServiceResponse<AdminProfileResponseDto>>> GetProfile(string pid)
         {
-            var response = await _authRepository.GetAdminProfile(id);
+            var response = await _authRepository.GetAdminProfile(pid);
             if (!response.Success)
             {
                 return BadRequest(response);

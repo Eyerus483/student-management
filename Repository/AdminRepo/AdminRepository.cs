@@ -19,9 +19,12 @@ namespace student_management.Repository.AdminRepo
         }
         public async Task<ServiceResponse<AdminDashboardResponseDto>> GetAdminDashboard()
         {
-            var response = new ServiceResponse<AdminDashboardResponseDto>();
 
-            response.Data = new AdminDashboardResponseDto { TotalStudents = await _context.Students.CountAsync()};
+            var response = new ServiceResponse<AdminDashboardResponseDto>();
+            var totalStudents = await _context.Students.CountAsync();
+            var totalDepartments = await _context.Departments.CountAsync();
+
+            response.Data = new AdminDashboardResponseDto { TotalStudents = totalStudents, TotalDepartments = totalDepartments };
 
             return response;
         }

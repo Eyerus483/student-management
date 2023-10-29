@@ -13,44 +13,44 @@ namespace student_management.Migrations
             migrationBuilder.RenameColumn(
                 name: "UpdatedAt",
                 table: "Students",
-                newName: "UpdatedOn");
+                newName: "UpdatedAt");
 
             migrationBuilder.RenameColumn(
                 name: "CreatedAt",
                 table: "Students",
-                newName: "CreatedOn");
+                newName: "CreatedAt");
 
             migrationBuilder.RenameColumn(
                 name: "UpdatedAt",
                 table: "Admins",
-                newName: "UpdatedOn");
+                newName: "UpdatedAt");
 
             migrationBuilder.RenameColumn(
                 name: "CreatedAt",
                 table: "Admins",
-                newName: "CreatedOn");
+                newName: "CreatedAt");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.RenameColumn(
-                name: "UpdatedOn",
+                name: "UpdatedAt",
                 table: "Students",
                 newName: "UpdatedAt");
 
             migrationBuilder.RenameColumn(
-                name: "CreatedOn",
+                name: "CreatedAt",
                 table: "Students",
                 newName: "CreatedAt");
 
             migrationBuilder.RenameColumn(
-                name: "UpdatedOn",
+                name: "UpdatedAt",
                 table: "Admins",
                 newName: "UpdatedAt");
 
             migrationBuilder.RenameColumn(
-                name: "CreatedOn",
+                name: "CreatedAt",
                 table: "Admins",
                 newName: "CreatedAt");
         }

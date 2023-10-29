@@ -16,7 +16,6 @@ namespace student_management.Dto.StudentDto
         public string City { get; set; } = string.Empty;
         public int Year { get; set; }
         public string Section { get; set; } = string.Empty;
-        public string StudentId { get; set; } = string.Empty;
         public EnrollmentClass EnrollmentType { get; set; }
         public List<Course>? Course { get; set; }
         public Department? Department { get; set; }

@@ -6,7 +6,7 @@ namespace student_management.Dto.CourseDto
     {
         public int Id { get; set; }
         public string Title { get; set; } = string.Empty;
-        public string Decription { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
         public int CreditHours { get; set; }
         public string CourseCode { get; set; } = string.Empty;
         public string TargetGroup { get; set; } = string.Empty;

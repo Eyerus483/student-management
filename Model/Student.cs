@@ -3,6 +3,7 @@ namespace student_management.Model
     public class Student
     {
         public int Id { get; set; }
+        public string Pid { get; set; } = string.Empty;
         public Role Role { get; set; } = Role.Student;
         public string UserName { get; set; } = string.Empty;
         public string FirstName { get; set; } = string.Empty;
