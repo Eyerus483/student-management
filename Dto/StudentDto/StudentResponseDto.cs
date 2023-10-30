@@ -5,6 +5,7 @@ namespace student_management.Dto.StudentDto
     public class StudentResponseDto
     {
         public int Id { get; set; }
+        public string Pid { get; set; } = string.Empty;
         public string UserName { get; set; } = string.Empty;
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;

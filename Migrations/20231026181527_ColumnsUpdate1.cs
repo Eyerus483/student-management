@@ -28,7 +28,7 @@ namespace student_management.Migrations
             migrationBuilder.RenameColumn(
                 name: "CreatedAt",
                 table: "Admins",
-                newName: "CreatedOn");
+                newName: "CreatedAt");
         }
 
         /// <inheritdoc />

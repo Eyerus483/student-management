@@ -4,6 +4,7 @@ using student_management.Repository.AdminRepo;
 namespace student_management.Repository.UnitOfWorkRepo
 {
     public class UnitOfWork : IUnitOfWork
+    public class UnitOfWork : IUnitOfWork
     {
         private readonly DataContext _context;
         public UnitOfWork(DataContext context)

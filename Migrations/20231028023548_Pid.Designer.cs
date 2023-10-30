@@ -12,8 +12,8 @@ using student_management.Data;
 namespace student_management.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20231017171030_InitialPostgressql")]
-    partial class InitialPostgressql
+    [Migration("20231028023548_Pid")]
+    partial class Pid
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -67,6 +67,10 @@ namespace student_management.Migrations
                         .IsRequired()
                         .HasColumnType("bytea");
 
+                    b.Property<string>("Pid")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<int>("Role")
                         .HasColumnType("integer");
 
@@ -102,7 +106,7 @@ namespace student_management.Migrations
                     b.Property<int>("CreditHours")
                         .HasColumnType("integer");
 
-                    b.Property<string>("Decription")
+                    b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -137,7 +141,7 @@ namespace student_management.Migrations
                             CourseCode = "202",
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreditHours = 4,
-                            Decription = "Algorizm",
+                            Description = "Algorizm",
                             Hours = 14,
                             Lecturer = "Fasica",
                             TargetGroup = "abc",
@@ -150,7 +154,7 @@ namespace student_management.Migrations
                             CourseCode = "203",
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreditHours = 4,
-                            Decription = "Acd",
+                            Description = "Acd",
                             Hours = 14,
                             Lecturer = "Fasica",
                             TargetGroup = "abc",
@@ -163,7 +167,7 @@ namespace student_management.Migrations
                             CourseCode = "204",
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreditHours = 4,
-                            Decription = "Acd",
+                            Description = "Acd",
                             Hours = 14,
                             Lecturer = "Fasica",
                             TargetGroup = "abc",
@@ -201,6 +205,10 @@ namespace student_management.Migrations
                         .IsRequired()
                         .HasColumnType("bytea");
 
+                    b.Property<string>("Pid")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<int>("ROle")
                         .HasColumnType("integer");
 
@@ -229,6 +237,7 @@ namespace student_management.Migrations
                             DepartmentName = "Electrical Enginering",
                             PasswordHash = new byte[0],
                             PasswordSalt = new byte[0],
+                            Pid = "",
                             ROle = 2,
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             UserName = "xyz",
@@ -242,6 +251,7 @@ namespace student_management.Migrations
                             DepartmentName = "Computer Enginering",
                             PasswordHash = new byte[0],
                             PasswordSalt = new byte[0],
+                            Pid = "",
                             ROle = 2,
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             UserName = "abcd",
@@ -255,6 +265,7 @@ namespace student_management.Migrations
                             DepartmentName = "Agricalture",
                             PasswordHash = new byte[0],
                             PasswordSalt = new byte[0],
+                            Pid = "",
                             ROle = 2,
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             UserName = "hijk",
@@ -307,6 +318,10 @@ namespace student_management.Migrations
                         .HasColumnType("bytea");
 
                     b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Pid")
                         .IsRequired()
                         .HasColumnType("text");
 

@@ -1,10 +1,15 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using student_management.Model;
 
 namespace student_management.Dto.StudentDto
 {
     public class StudentProfileResponseDto
     {
-    public int Id { get; set; }
+        public int Id { get; set; }
+        public string Pid { get; set; } = string.Empty;
         public string UserName { get; set; } = string.Empty;
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
@@ -20,7 +25,6 @@ namespace student_management.Dto.StudentDto
         public EnrollmentClass EnrollmentType { get; set; }
         public List<Course>? Course { get; set; }
         public Department? Department { get; set; }
-        public DateTime RegistrationDate { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
     }

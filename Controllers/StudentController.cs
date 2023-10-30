@@ -40,7 +40,6 @@ namespace student_management.Controllers
 
             return Ok(response); 
        }
-       
     }
   
 }

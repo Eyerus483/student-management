@@ -14,7 +14,7 @@ namespace student_management.Dto.DashboardDto
         public int StudentsRegisteredThisYear { get; set; }
         public int StudentsRegisteredLastYear { get; set; }
         public int StudentsRegisteredIncreaseThisYear { get; set; }
-        public int StudentsRegisteredIncreaseLastYear { get; set; }
+        public int StudentsRegisteredIncreseLastYear { get; set; }
         public int TotalVisitors { get; set; }
     }
 }

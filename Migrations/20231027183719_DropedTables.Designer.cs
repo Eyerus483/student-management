@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using student_management.Data;
@@ -11,9 +12,11 @@ using student_management.Data;
 namespace student_management.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20231027183719_DropedTables")]
+    partial class DropedTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -64,10 +67,6 @@ namespace student_management.Migrations
                         .IsRequired()
                         .HasColumnType("bytea");
 
-                    b.Property<string>("Pid")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<int>("Role")
                         .HasColumnType("integer");
 
@@ -103,7 +102,7 @@ namespace student_management.Migrations
                     b.Property<int>("CreditHours")
                         .HasColumnType("integer");
 
-                    b.Property<string>("Description")
+                    b.Property<string>("Decription")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -138,7 +137,7 @@ namespace student_management.Migrations
                             CourseCode = "202",
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreditHours = 4,
-                            Description = "Algorizm",
+                            Decription = "Algorizm",
                             Hours = 14,
                             Lecturer = "Fasica",
                             TargetGroup = "abc",
@@ -151,7 +150,7 @@ namespace student_management.Migrations
                             CourseCode = "203",
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreditHours = 4,
-                            Description = "Acd",
+                            Decription = "Acd",
                             Hours = 14,
                             Lecturer = "Fasica",
                             TargetGroup = "abc",
@@ -164,7 +163,7 @@ namespace student_management.Migrations
                             CourseCode = "204",
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreditHours = 4,
-                            Description = "Acd",
+                            Decription = "Acd",
                             Hours = 14,
                             Lecturer = "Fasica",
                             TargetGroup = "abc",
@@ -202,10 +201,6 @@ namespace student_management.Migrations
                         .IsRequired()
                         .HasColumnType("bytea");
 
-                    b.Property<string>("Pid")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<int>("ROle")
                         .HasColumnType("integer");
 
@@ -234,7 +229,6 @@ namespace student_management.Migrations
                             DepartmentName = "Electrical Enginering",
                             PasswordHash = new byte[0],
                             PasswordSalt = new byte[0],
-                            Pid = "",
                             ROle = 2,
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             UserName = "xyz",
@@ -248,7 +242,6 @@ namespace student_management.Migrations
                             DepartmentName = "Computer Enginering",
                             PasswordHash = new byte[0],
                             PasswordSalt = new byte[0],
-                            Pid = "",
                             ROle = 2,
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             UserName = "abcd",
@@ -262,7 +255,6 @@ namespace student_management.Migrations
                             DepartmentName = "Agricalture",
                             PasswordHash = new byte[0],
                             PasswordSalt = new byte[0],
-                            Pid = "",
                             ROle = 2,
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             UserName = "hijk",
@@ -315,10 +307,6 @@ namespace student_management.Migrations
                         .HasColumnType("bytea");
 
                     b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Pid")
                         .IsRequired()
                         .HasColumnType("text");
 
