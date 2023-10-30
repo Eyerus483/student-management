@@ -13,10 +13,10 @@ namespace student_management.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class Admins : ControllerBase
+    public class AdminController : ControllerBase
     {
         private readonly IAuthRepository _authRepository;
-        public Admins(IAuthRepository authRepository)
+        public AdminController(IAuthRepository authRepository)
         {
             _authRepository = authRepository;
             
@@ -36,9 +36,9 @@ namespace student_management.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpGet("profile")]
-        public async Task<ActionResult<ServiceResponse<AdminResponseDto>>> GetProfile(int id)
+         public async Task<ActionResult<ServiceResponse<AdminProfileResponseDto>>> GetProfile(string pid)
         {
-            var response = await _authRepository.GetAdminProfile(id);
+            var response = await _authRepository.GetAdminProfile(pid);
             if (!response.Success)
             {
                 return BadRequest(response);

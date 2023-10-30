@@ -12,8 +12,8 @@ using student_management.Data;
 namespace student_management.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20231026181527_ColumnsUpdate1")]
-    partial class ColumnsUpdate1
+    [Migration("20231027171536_CourseTableRecreate")]
+    partial class CourseTableRecreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

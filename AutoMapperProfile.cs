@@ -12,6 +12,8 @@ namespace student_management
             CreateMap<StudentRequestDto, Student>();
             CreateMap<Admin, AdminResponseDto> ();
             CreateMap<Student, StudentResponseDto> ();
+            CreateMap<Admin, AdminProfileResponseDto> ();
+            CreateMap<Student, StudentProfileResponseDto> ();
         }
     }
 }

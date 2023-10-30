@@ -4,6 +4,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using student_management.Auth;
 using student_management.Data;
+using student_management.Repository.UnitOfWorkRepo;
 using Swashbuckle.AspNetCore.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,15 +15,16 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(
-    c => {
+    c =>
+    {
         c.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
         {
             Description = """Standard authorization header using the Bearer scheme. Example: "bearer {token}" """,
             In = ParameterLocation.Header,
-            Name =  "Authorization",
+            Name = "Authorization",
             Type = SecuritySchemeType.ApiKey,
         });
-        
+
         c.OperationFilter<SecurityRequirementsOperationFilter>();
     }
 );
@@ -31,12 +33,12 @@ builder.Services.AddAutoMapper(typeof(Program).Assembly);
 // if(builder.Environment.IsDevelopment())
 // {
 //builder.Services.AddDbContext<DataContext>(options => 
-  // options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+// options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 // }
 // else
 //{
-    builder.Services.AddDbContext<DataContext>(options => 
-       options.UseNpgsql(builder.Configuration.GetConnectionString("PostgresConnection")));
+builder.Services.AddDbContext<DataContext>(options =>
+   options.UseNpgsql(builder.Configuration.GetConnectionString("PostgresConnection")));
 //}
 
 
@@ -52,17 +54,23 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         ValidateIssuer = false,
         ValidateAudience = false,
 
-};
+    };
 });
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
+builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 // if (app.Environment.IsDevelopment())
 //{
-    app.UseSwagger();
-    app.UseSwaggerUI();
+app.UseSwagger();
+app.UseSwaggerUI();
+
+
 //}
+
+
 
 if (app.Environment.IsDevelopment())
 {

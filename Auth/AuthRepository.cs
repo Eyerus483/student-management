@@ -11,25 +11,27 @@ using student_management.Model;
 namespace student_management.Auth
 {
     public class AuthRepository : IAuthRepository
-{
-        public readonly DataContext _Context;
-        public readonly IConfiguration _Configuration;
+    {
+        public readonly DataContext _context;
+        public readonly IConfiguration _configuration;
         private readonly IMapper _mapper;
         public AuthRepository(DataContext context, IConfiguration configuration, IMapper mapper)
         {
             _mapper = mapper;
-            _Configuration = configuration;
-            _Context = context;
+            _configuration = configuration;
+            _context = context;
 
         }
+
         public async Task<ServiceResponse<AdminResponseDto>> AdminLogin(string userName, string password)
         {
-            var respone = new ServiceResponse<AdminResponseDto>();
-            var user = await _Context.Admins.FirstOrDefaultAsync(u => u.UserName.ToLower().Equals(userName.ToLower()));
+
+            var response = new ServiceResponse<AdminResponseDto>();
+            var user = await _context.Admins.FirstOrDefaultAsync(u => u.UserName.ToLower().Equals(userName.ToLower()));
             if ((user is null) || !VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
             {
-                respone.Success = false;
-                respone.Message = "Incorrect UserName or Password";
+                response.Success = false;
+                response.Message = "Incorrect UserName or Password";
 
             }
             else
@@ -37,15 +39,15 @@ namespace student_management.Auth
                 string token = CreateToken(user.Id, user.UserName, "Admin");
                 AdminResponseDto getAdmin = _mapper.Map<AdminResponseDto>(user);
                 getAdmin.Token = token;
-                respone.Data = getAdmin;
+                response.Data = getAdmin;
             }
-            return respone;
+            return response;
         }
 
         public async Task<ServiceResponse<int>> AdminRegister(Admin admin, string password)
         {
             var response = new ServiceResponse<int>();
-            if (await _Context.Admins.AnyAsync(u => u.UserName.ToLower() == admin.UserName.ToLower()))
+            if (await _context.Admins.AnyAsync(u => u.UserName.ToLower() == admin.UserName.ToLower()))
             {
                 response.Success = false;
                 response.Message = "User already exists.";
@@ -54,15 +56,16 @@ namespace student_management.Auth
             CreatePasswordHash(password, out byte[] passwordHash, out byte[] passwordSalt);
             admin.PasswordHash = passwordHash;
             admin.PasswordSalt = passwordSalt;
-            _Context.Admins.Add(admin);
-            await _Context.SaveChangesAsync();
+            admin.Pid = GeneratePublicId();
+            _context.Admins.Add(admin);
+            await _context.SaveChangesAsync();
             response.Message = "Sucessfuly registered";
             return response;
         }
-public async Task<ServiceResponse<StudentResponseDto>> StudentLogin(string userName, string password)
+        public async Task<ServiceResponse<StudentResponseDto>> StudentLogin(string userName, string password)
         {
             var respone = new ServiceResponse<StudentResponseDto>();
-            var user = await _Context.Students.FirstOrDefaultAsync(u => u.UserName.ToLower().Equals(userName.ToLower()));
+            var user = await _context.Students.FirstOrDefaultAsync(u => u.UserName.ToLower().Equals(userName.ToLower()));
             if ((user is null) || !VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
             {
                 respone.Success = false;
@@ -71,7 +74,7 @@ public async Task<ServiceResponse<StudentResponseDto>> StudentLogin(string userN
             }
             else
             {
-                
+
                 string token = CreateToken(user.Id, user.UserName, "Student");
                 StudentResponseDto getStudent = _mapper.Map<StudentResponseDto>(user);
                 getStudent.Token = token;
@@ -84,7 +87,7 @@ public async Task<ServiceResponse<StudentResponseDto>> StudentLogin(string userN
         {
             var response = new ServiceResponse<int>();
             var student = _mapper.Map<Student>(request);
-            if (await _Context.Students.AnyAsync(u => u.UserName.ToLower() == student.UserName.ToLower()))
+            if (await _context.Students.AnyAsync(u => u.UserName.ToLower() == student.UserName.ToLower()))
             {
                 response.Success = false;
                 response.Message = "Student already exists.";
@@ -93,13 +96,13 @@ public async Task<ServiceResponse<StudentResponseDto>> StudentLogin(string userN
             CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
             student.PasswordHash = passwordHash;
             student.PasswordSalt = passwordSalt;
-            _Context.Students.Add(student);
-            await _Context.SaveChangesAsync();
+            _context.Students.Add(student);
+            await _context.SaveChangesAsync();
             response.Message = "Sucessfuly registered";
             return response;
         }
 
-       
+
         public void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
             using (var hmac = new System.Security.Cryptography.HMACSHA512())
@@ -125,8 +128,8 @@ public async Task<ServiceResponse<StudentResponseDto>> StudentLogin(string userN
             new Claim(ClaimTypes.Name, userName),
             new Claim(ClaimTypes.Role, role)
         };
-            var appsettingstoken = _Configuration.GetSection("AppSettings:Token").Value;
-            if(appsettingstoken is null)
+            var appsettingstoken = _configuration.GetSection("AppSettings:Token").Value;
+            if (appsettingstoken is null)
                 throw new Exception("Appsetting token is null");
             SymmetricSecurityKey key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(appsettingstoken));
             SigningCredentials creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
@@ -141,10 +144,14 @@ public async Task<ServiceResponse<StudentResponseDto>> StudentLogin(string userN
             return tokenHandler.WriteToken(token);
         }
 
-        public async Task<ServiceResponse<AdminResponseDto>> GetAdminProfile(int id)
+        public string GeneratePublicId()
         {
-            var response = new ServiceResponse<AdminResponseDto>();
-            var user = await _Context.Admins.FirstOrDefaultAsync(u => u.Id.Equals(id));
+            return Guid.NewGuid().ToString();
+        }
+        public async Task<ServiceResponse<AdminProfileResponseDto>> GetAdminProfile(string pid)
+        {
+            var response = new ServiceResponse<AdminProfileResponseDto>();
+            var user = await _context.Admins.FirstOrDefaultAsync(u => u.Pid.Equals(pid));
             if (user is null)
             {
                 response.Success = false;
@@ -153,15 +160,14 @@ public async Task<ServiceResponse<StudentResponseDto>> StudentLogin(string userN
             }
             else
             {
-                response.Data = _mapper.Map<AdminResponseDto>(user);
+                response.Data = _mapper.Map<AdminProfileResponseDto>(user);
             }
             return response;
         }
-
-        public async Task<ServiceResponse<StudentResponseDto>> GetStudentProfile(int id)
+        public async Task<ServiceResponse<StudentProfileResponseDto>> GetStudentProfile(int id)
         {
-            var response = new ServiceResponse<StudentResponseDto>();
-            var user = await _Context.Students.FirstOrDefaultAsync(u => u.Id.Equals(id));
+            var response = new ServiceResponse<StudentProfileResponseDto>();
+            var user = await _context.Students.FirstOrDefaultAsync(u => u.Id.Equals(id));
             if (user is null)
             {
                 response.Success = false;
@@ -169,7 +175,7 @@ public async Task<ServiceResponse<StudentResponseDto>> StudentLogin(string userN
             }
             else
             {
-                response.Data = _mapper.Map<StudentResponseDto>(user);
+                response.Data = _mapper.Map<StudentProfileResponseDto>(user);
             }
             return response;
         }
