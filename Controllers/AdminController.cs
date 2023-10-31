@@ -18,9 +18,11 @@ namespace student_management.Controllers
     public class AdminController : ControllerBase
     {
         private readonly IAuthRepository _authRepository;
-        public AdminController(IAuthRepository authRepository)
+        private readonly IUnitOfWork _unitOfWork;
+        public AdminController(IAuthRepository authRepository, IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
+          
             _authRepository = authRepository;
 
         }

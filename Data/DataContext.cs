@@ -32,6 +32,7 @@ namespace student_management.Data
         public DbSet<Course> Courses { get; set; }
         public DbSet<Department> Departments { get; set; }
         public DbSet<Admin> Admins { get; set; }
+        public DbSet<Teacher> Teachers { get; set; }
     }
 
 
