@@ -5,7 +5,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using student_management.Data;
 using student_management.Dto.AdminDto;
+using student_management.Dto.DepartmentDto;
 using student_management.Dto.StudentDto;
+using student_management.Dto.TeacherDto;
 using student_management.Model;
 
 namespace student_management.Auth
@@ -44,13 +46,13 @@ namespace student_management.Auth
             return response;
         }
 
-        public async Task<ServiceResponse<int>> AdminRegister(Admin admin, string password)
+        public async Task<ServiceResponse<string>> AdminRegister(Admin admin, string password)
         {
-            var response = new ServiceResponse<int>();
+            var response = new ServiceResponse<string>();
             if (await _context.Admins.AnyAsync(u => u.UserName.ToLower() == admin.UserName.ToLower()))
             {
                 response.Success = false;
-                response.Message = "User already exists.";
+                response.Message = "Admin already exists.";
                 return response;
             }
             CreatePasswordHash(password, out byte[] passwordHash, out byte[] passwordSalt);
@@ -83,9 +85,9 @@ namespace student_management.Auth
             return respone;
         }
 
-        public async Task<ServiceResponse<int>> StudentRegister(StudentRequestDto request)
+        public async Task<ServiceResponse<string>> StudentRegister(StudentRequestDto request)
         {
-            var response = new ServiceResponse<int>();
+            var response = new ServiceResponse<string>();
             var student = _mapper.Map<Student>(request);
             if (await _context.Students.AnyAsync(u => u.UserName.ToLower() == student.UserName.ToLower()))
             {
@@ -96,13 +98,52 @@ namespace student_management.Auth
             CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
             student.PasswordHash = passwordHash;
             student.PasswordSalt = passwordSalt;
+            student.Pid = GeneratePublicId();
             _context.Students.Add(student);
             await _context.SaveChangesAsync();
             response.Message = "Sucessfuly registered";
             return response;
         }
+        public async Task<ServiceResponse<TeacherResponseDto>> TeacherLogin(string userName, string password)
+        {
+            var respone = new ServiceResponse<TeacherResponseDto>();
+            var user = await _context.Teachers.FirstOrDefaultAsync(u => u.UserName.ToLower().Equals(userName.ToLower()));
+            if ((user is null) || !VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
+            {
+                respone.Success = false;
+                respone.Message = "Incorrect UserName or Password";
 
+            }
+            else
+            {
 
+                string token = CreateToken(user.Id, user.UserName, "Teacher");
+                TeacherResponseDto getTeacher = _mapper.Map<TeacherResponseDto>(user);
+                getTeacher.Token = token;
+                respone.Data = getTeacher;
+            }
+            return respone;
+        }
+
+        public async Task<ServiceResponse<string>> TeacherRegister(TeacherRequestDto request)
+        {
+            var response = new ServiceResponse<string>();
+            var teacher = _mapper.Map<Teacher>(request);
+            if (await _context.Teachers.AnyAsync(u => u.UserName.ToLower() == teacher.UserName.ToLower()))
+            {
+                response.Success = false;
+                response.Message = "Teacher already exists.";
+                return response;
+            }
+            CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
+            teacher.PasswordHash = passwordHash;
+            teacher.PasswordSalt = passwordSalt;
+            teacher.Pid = GeneratePublicId();
+            _context.Teachers.Add(teacher);
+            await _context.SaveChangesAsync();
+            response.Message = "Sucessfuly registered";
+            return response;
+        }
         public void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
             using (var hmac = new System.Security.Cryptography.HMACSHA512())
@@ -124,7 +165,7 @@ namespace student_management.Auth
         {
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.NameIdentifier, id.ToString()),
+            new Claim(ClaimTypes.NameIdentifier, id.ToString()),
             new Claim(ClaimTypes.Name, userName),
             new Claim(ClaimTypes.Role, role)
         };
@@ -164,10 +205,10 @@ namespace student_management.Auth
             }
             return response;
         }
-        public async Task<ServiceResponse<StudentProfileResponseDto>> GetStudentProfile(int id)
+        public async Task<ServiceResponse<StudentProfileResponseDto>> GetStudentProfile(string pid)
         {
             var response = new ServiceResponse<StudentProfileResponseDto>();
-            var user = await _context.Students.FirstOrDefaultAsync(u => u.Id.Equals(id));
+            var user = await _context.Students.FirstOrDefaultAsync(u => u.Pid.Equals(pid));
             if (user is null)
             {
                 response.Success = false;
@@ -179,5 +220,45 @@ namespace student_management.Auth
             }
             return response;
         }
+        public async Task<ServiceResponse<DepartmentResponseDto>> DepartmentLogin(string userName, string password)
+        {
+            var respone = new ServiceResponse<DepartmentResponseDto>();
+            var user = await _context.Departments.FirstOrDefaultAsync(u => u.UserName.ToLower().Equals(userName.ToLower()));
+            if ((user is null) || !VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
+            {
+                respone.Success = false;
+                respone.Message = "Incorrect UserName or Password";
+
+            }
+            else
+            {
+
+                string token = CreateToken(user.Id, user.UserName, "Department");
+                DepartmentResponseDto getDepartment = _mapper.Map<DepartmentResponseDto>(user);
+                getDepartment.Token = token;
+                respone.Data = getDepartment;
+            }
+            return respone;
+        }
+        public async Task<ServiceResponse<string>> DepartmentRegister(DepartmentRequestDto request)
+        {
+            var response = new ServiceResponse<string>();
+            var department = _mapper.Map<Department>(request);
+            if (await _context.Departments.AnyAsync(u => u.UserName.ToLower() == department.UserName.ToLower()))
+            {
+                response.Success = false;
+                response.Message = "Department already exists.";
+                return response;
+            }
+            CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
+            department.PasswordHash = passwordHash;
+            department.PasswordSalt = passwordSalt;
+            department.Pid = GeneratePublicId();
+            _context.Departments.Add(department);
+            await _context.SaveChangesAsync();
+            response.Message = "Sucessfuly registered";
+            return response;
+        }
+
     }
 }

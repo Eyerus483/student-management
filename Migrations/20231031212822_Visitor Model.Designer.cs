@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using student_management.Data;
@@ -11,9 +12,11 @@ using student_management.Data;
 namespace student_management.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20231031212822_Visitor Model")]
+    partial class VisitorModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -427,9 +430,6 @@ namespace student_management.Migrations
                     b.Property<string>("Pid")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<int>("Role")
-                        .HasColumnType("integer");
 
                     b.Property<string>("SubCity")
                         .IsRequired()

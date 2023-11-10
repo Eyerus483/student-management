@@ -22,24 +22,26 @@ namespace student_management.Controllers
 
         }
 
-       [HttpPost("login")]
-    public async Task<ActionResult<ServiceResponse<AdminResponseDto>>> Login(UserLoginDto request){
+        [HttpPost("login")]
+        public async Task<ActionResult<ServiceResponse<AdminResponseDto>>> Login(UserLoginDto request)
+        {
             var response = await _authRepository.AdminLogin(request.UserName, request.Password);
             if (!response.Success)
             {
                 return BadRequest(response);
             }
             return Ok(response);
-    }
-[HttpPost("register")]
-       public async Task<ActionResult<ServiceResponse<int>>> Register(AdminRequestDto request){
+        }
+        [HttpPost("register")]
+        public async Task<ActionResult<ServiceResponse<string>>> Register(AdminRequestDto request)
+        {
             var response = await _authRepository.AdminRegister(new Admin { UserName = request.UserName, FirstName = request.FirstName, LastName = request.LastName }, request.Password);
-            if(!response.Success)
+            if (!response.Success)
             {
                 return BadRequest(response);
             }
 
-            return Ok(response); 
-       }
+            return Ok(response);
+        }
     }
 }

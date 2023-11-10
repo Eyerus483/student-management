@@ -31,8 +31,8 @@ namespace student_management.Controllers
     }
     
        [HttpGet("profile")]
-       public async Task<ActionResult<ServiceResponse<StudentProfileResponseDto>>> GetStudentProfile(int id){
-            var response = await _authRepository.GetStudentProfile(id);
+       public async Task<ActionResult<ServiceResponse<StudentProfileResponseDto>>> GetStudentProfile(string pid){
+            var response = await _authRepository.GetStudentProfile(pid);
             if(!response.Success)
             {
                 return BadRequest(response);

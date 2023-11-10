@@ -1,6 +1,9 @@
 using AutoMapper;
 using student_management.Dto.AdminDto;
+using student_management.Dto.CourseDto;
+using student_management.Dto.DepartmentDto;
 using student_management.Dto.StudentDto;
+using student_management.Dto.TeacherDto;
 using student_management.Model;
 
 namespace student_management
@@ -14,6 +17,12 @@ namespace student_management
             CreateMap<Student, StudentResponseDto> ();
             CreateMap<Admin, AdminProfileResponseDto> ();
             CreateMap<Student, StudentProfileResponseDto> ();
+            CreateMap<TeacherRequestDto, Teacher>();
+            CreateMap<DepartmentRequestDto, Department>();
+            CreateMap<Department, DepartmentResponseDto>();
+            CreateMap<Teacher, TeacherResponseDto>();
+            CreateMap<CourseRequestDto, Course>();
+            CreateMap<Course, CourseResponseDto>();
         }
     }
 }

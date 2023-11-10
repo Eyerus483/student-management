@@ -26,12 +26,21 @@ namespace student_management.Data
             modelBuilder.Entity<Course>().Property(e => e.UpdatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP").ValueGeneratedOnUpdate(); base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Department>().Property(e => e.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP").ValueGeneratedOnAdd();
             modelBuilder.Entity<Department>().Property(e => e.UpdatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP").ValueGeneratedOnUpdate(); base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Visitor>().Property(e => e.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP").ValueGeneratedOnAdd();
+            modelBuilder.Entity<Visitor>().Property(e => e.UpdatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP").ValueGeneratedOnUpdate(); base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Student>().Property(e => e.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP").ValueGeneratedOnAdd();
+            modelBuilder.Entity<Student>().Property(e => e.UpdatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP").ValueGeneratedOnUpdate(); base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Admin>().Property(e => e.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP").ValueGeneratedOnAdd();
+            modelBuilder.Entity<Admin>().Property(e => e.UpdatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP").ValueGeneratedOnUpdate(); base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Teacher>().Property(e => e.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP").ValueGeneratedOnAdd();
+            modelBuilder.Entity<Teacher>().Property(e => e.UpdatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP").ValueGeneratedOnUpdate(); base.OnModelCreating(modelBuilder);
         }
 
         public DbSet<Student> Students { get; set; }
         public DbSet<Course> Courses { get; set; }
         public DbSet<Department> Departments { get; set; }
         public DbSet<Admin> Admins { get; set; }
+        public DbSet<Visitor> Visitors { get; set; }
         public DbSet<Teacher> Teachers { get; set; }
     }
 
