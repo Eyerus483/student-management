@@ -1,3 +1,5 @@
+using student_management.Dto.CourseDto;
+using student_management.Dto.DepartmentDto;
 using student_management.Model;
 
 namespace student_management.Dto.TeacherDto
@@ -16,8 +18,8 @@ namespace student_management.Dto.TeacherDto
         public string PhoneNumber { get; set; } = string.Empty;
         public string SubCity { get; set; } = string.Empty;
         public string City { get; set; } = string.Empty;
-        public List<Course>? Course { get; set; }
-        public Department? Department { get; set; }
+        public List<CourseResponseDto>? Course { get; set; }
+        public DepartmentProfileDto? Department { get; set; }
         public DateTime EmploymentDate { get; set; }
         public byte[] PasswordHash { get; set; } = new byte[0];
         public byte[] PasswordSalt { get; set; } = new byte[0];

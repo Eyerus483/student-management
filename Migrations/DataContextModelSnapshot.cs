@@ -107,16 +107,15 @@ namespace student_management.Migrations
                     b.Property<int>("CreditHours")
                         .HasColumnType("integer");
 
+                    b.Property<int>("DepartmentId")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<int>("Hours")
                         .HasColumnType("integer");
-
-                    b.Property<string>("Lecturer")
-                        .IsRequired()
-                        .HasColumnType("text");
 
                     b.Property<string>("TargetGroup")
                         .IsRequired()
@@ -136,6 +135,8 @@ namespace student_management.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("DepartmentId");
+
                     b.HasIndex("TeacherId");
 
                     b.ToTable("Courses");
@@ -147,9 +148,9 @@ namespace student_management.Migrations
                             CourseCode = "202",
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreditHours = 4,
+                            DepartmentId = 1,
                             Description = "Algorizm",
                             Hours = 14,
-                            Lecturer = "Fasica",
                             TargetGroup = "abc",
                             Title = "Data Structure",
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
@@ -160,9 +161,9 @@ namespace student_management.Migrations
                             CourseCode = "203",
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreditHours = 4,
+                            DepartmentId = 2,
                             Description = "Acd",
                             Hours = 14,
-                            Lecturer = "Fasica",
                             TargetGroup = "abc",
                             Title = "English",
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
@@ -173,9 +174,9 @@ namespace student_management.Migrations
                             CourseCode = "204",
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreditHours = 4,
+                            DepartmentId = 3,
                             Description = "Acd",
                             Hours = 14,
-                            Lecturer = "Fasica",
                             TargetGroup = "abc",
                             Title = "Maths",
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
@@ -494,9 +495,17 @@ namespace student_management.Migrations
 
             modelBuilder.Entity("student_management.Model.Course", b =>
                 {
+                    b.HasOne("student_management.Model.Department", "Department")
+                        .WithMany("Courses")
+                        .HasForeignKey("DepartmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("student_management.Model.Teacher", null)
                         .WithMany("Course")
                         .HasForeignKey("TeacherId");
+
+                    b.Navigation("Department");
                 });
 
             modelBuilder.Entity("student_management.Model.Student", b =>
@@ -519,6 +528,8 @@ namespace student_management.Migrations
 
             modelBuilder.Entity("student_management.Model.Department", b =>
                 {
+                    b.Navigation("Courses");
+
                     b.Navigation("Students");
                 });
 

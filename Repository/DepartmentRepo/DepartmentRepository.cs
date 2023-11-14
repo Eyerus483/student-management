@@ -27,7 +27,12 @@ namespace student_management.Repository.DepartmentRepo
                 response.Message = "Course already exists";
                 return response;
             }
-
+            var department = await _context.Departments.FirstOrDefaultAsync(d => d.Id == request.DepartmentId);
+            if(department == null){
+                response.Success = false;
+                response.Message = "Department not found";
+                return response;
+            }
             _context.Courses.Add(courseRequest);
             await _context.SaveChangesAsync();
 

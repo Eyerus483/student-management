@@ -5,7 +5,7 @@
 namespace student_management.Migrations
 {
     /// <inheritdoc />
-    public partial class CourseTableRecreate : Migration
+    public partial class DepartmentId : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

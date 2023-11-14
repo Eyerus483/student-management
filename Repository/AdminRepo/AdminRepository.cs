@@ -17,6 +17,22 @@ namespace student_management.Repository.AdminRepo
             _context = context;
             
         }
+
+        public async Task<ServiceResponse<string>> DeleteAdmin(string pid)
+        {
+            var response = new ServiceResponse<string>();
+            var admin = await _context.Admins.FirstOrDefaultAsync(d => d.Pid == pid);
+            if(admin == null){
+                response.Success = false;
+                response.Message = "User not found";
+                return response;
+            }
+            _context.Admins.Remove(admin);
+            await _context.SaveChangesAsync();
+            response.Message = "Succesfully deleted";
+            return response;
+        }
+
         public async Task<ServiceResponse<AdminDashboardResponseDto>> GetAdminDashboard()
         {
             var response = new ServiceResponse<AdminDashboardResponseDto>();

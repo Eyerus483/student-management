@@ -1,3 +1,4 @@
+using student_management.Dto.StudentDto;
 using student_management.Model;
 
 namespace student_management.Dto.DepartmentDto
@@ -9,6 +10,6 @@ namespace student_management.Dto.DepartmentDto
         public string BlockNumber { get; set; } = string.Empty;
         public string Password { get; set; } = string.Empty;
         public int YearOfEstablishment { get; set; }
-        public List<Student>? Students { get; set; }
+      
     }
 }

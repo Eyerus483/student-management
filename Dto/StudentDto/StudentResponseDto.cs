@@ -1,3 +1,5 @@
+using student_management.Dto.CourseDto;
+using student_management.Dto.DepartmentDto;
 using student_management.Model;
 
 namespace student_management.Dto.StudentDto
@@ -22,8 +24,8 @@ namespace student_management.Dto.StudentDto
         public string Section { get; set; } = string.Empty;
         public string StudentId { get; set; } = string.Empty;
         public EnrollmentClass EnrollmentType { get; set; }
-        public List<Course>? Course { get; set; }
-        public Department? Department { get; set; }
+        public List<CourseResponseDto>? Course { get; set; }
+        public DepartmentProfileDto? Department { get; set; }
         public DateTime RegistrationDate { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }

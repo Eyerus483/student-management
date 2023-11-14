@@ -19,7 +19,7 @@ namespace student_management.Controllers
             _unitOfWork = unitOfWork;
             
         }
-[HttpGet("dashboard")]
+[HttpGet("admin")]
         public async Task<ActionResult<ServiceResponse<AdminDashboardResponseDto>>> GetAdminDashboard(){
             var response = await _unitOfWork.Admin.GetAdminDashboard();
             if (!response.Success)

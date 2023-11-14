@@ -99,6 +99,9 @@ namespace student_management.Auth
             student.PasswordHash = passwordHash;
             student.PasswordSalt = passwordSalt;
             student.Pid = GeneratePublicId();
+            int maxId = _context.Students.Any()?  _context.Students.Max(s => s.Id) : 0;
+            maxId++;
+            student.StudentId = $"SM/{maxId:D4}";
             _context.Students.Add(student);
             await _context.SaveChangesAsync();
             response.Message = "Sucessfuly registered";
@@ -223,7 +226,7 @@ namespace student_management.Auth
         public async Task<ServiceResponse<DepartmentResponseDto>> DepartmentLogin(string userName, string password)
         {
             var respone = new ServiceResponse<DepartmentResponseDto>();
-            var user = await _context.Departments.FirstOrDefaultAsync(u => u.UserName.ToLower().Equals(userName.ToLower()));
+            var user = await _context.Departments.Include(d => d.Courses).FirstOrDefaultAsync(u => u.UserName.ToLower().Equals(userName.ToLower()));
             if ((user is null) || !VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
             {
                 respone.Success = false;
@@ -260,5 +263,32 @@ namespace student_management.Auth
             return response;
         }
 
+        public async Task<ServiceResponse<AdminProfileResponseDto>> AdminUpdate(AdminUpdateDto request)
+        {
+            var response = new ServiceResponse<AdminProfileResponseDto>();
+            var admin = await _context.Admins.FirstOrDefaultAsync(a => a.Id == request.Id);
+            if(admin == null){
+                response.Success = false;
+                response.Message = "User doesn't exist";
+                return response;
+            }
+            if (admin.UserName != request.UserName && await _context.Admins.FirstOrDefaultAsync(a => a.UserName.ToLower().Equals(request.UserName.ToLower())) != null) 
+            {
+                response.Success = false;
+                response.Message = "User Name already exists";
+                return response;
+            }
+            var adminUpdate = _mapper.Map<Admin>(request);
+
+            admin.FirstName = adminUpdate.FirstName;
+            admin.LastName = adminUpdate.LastName;
+            admin.UserName = adminUpdate.UserName;
+
+               // _mapper.Map(adminUpdate, admin);
+
+            await _context.SaveChangesAsync();
+            response.Data = _mapper.Map<AdminProfileResponseDto>(admin);
+            return response;
+        }
     }
 }

@@ -16,8 +16,9 @@ namespace student_management.Auth
         Task<ServiceResponse<AdminProfileResponseDto>> GetAdminProfile(string pid);
         Task<ServiceResponse<StudentProfileResponseDto>> GetStudentProfile(string pid);
         Task<ServiceResponse<string>> DepartmentRegister(DepartmentRequestDto request);
-         Task<ServiceResponse<DepartmentResponseDto>> DepartmentLogin(string userName, string password);
-         Task<ServiceResponse<TeacherResponseDto>> TeacherLogin(string userName, string password);
+        Task<ServiceResponse<DepartmentResponseDto>> DepartmentLogin(string userName, string password);
+        Task<ServiceResponse<TeacherResponseDto>> TeacherLogin(string userName, string password);
+        Task<ServiceResponse<AdminProfileResponseDto>> AdminUpdate(AdminUpdateDto request);
 
     }
 }

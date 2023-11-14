@@ -9,6 +9,7 @@ namespace student_management.Repository.AdminRepo
 {
     public interface IAdminRepository
     {
-        public Task<ServiceResponse<AdminDashboardResponseDto>> GetAdminDashboard(); 
+        public Task<ServiceResponse<AdminDashboardResponseDto>> GetAdminDashboard();
+        public Task<ServiceResponse<string>> DeleteAdmin(string pid);
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -39,7 +40,7 @@ namespace student_management.Controllers
                 return BadRequest(response);
             }
 
-            return Ok(response);
+            return CreatedAtAction(nameof(RegisterStudent), response);
         }
 
         [Authorize(Roles = "Admin")]
@@ -52,7 +53,7 @@ namespace student_management.Controllers
                 return BadRequest(response);
             }
 
-            return Ok(response);
+            return CreatedAtAction(nameof(RegisterTeacher), response);
         }
 
         [Authorize(Roles = "Admin")]
@@ -65,13 +66,13 @@ namespace student_management.Controllers
                 return BadRequest(response);
             }
 
-            return Ok(response);
+            return CreatedAtAction(nameof(RegisterDepartment), response);
         }
 
         [Authorize(Roles = "Admin")]
         [HttpGet("profile")]
 
-        public async Task<ActionResult<ServiceResponse<AdminProfileResponseDto>>> GetProfile(string pid)
+        public async Task<ActionResult<ServiceResponse<AdminProfileResponseDto>>> GetProfile([FromHeader, Required] string pid)
         {
             var response = await _authRepository.GetAdminProfile(pid);
             if (!response.Success)
@@ -82,18 +83,7 @@ namespace student_management.Controllers
             return Ok(response);
         }
 
-        [HttpGet("dashboard")]
+        
 
-        public async Task<ActionResult<ServiceResponse<AdminDashboardResponseDto>>> GetAdminDashboard()
-        {
-
-            var response = await _unitOfWork.Admin.GetAdminDashboard();
-            if (!response.Success)
-            {
-                return BadRequest(response);
-            }
-            return Ok(response);
-
-        }
     }
 }

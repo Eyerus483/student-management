@@ -13,9 +13,9 @@ namespace student_management.Data
 
         {
             modelBuilder.Entity<Course>().HasData(
-                new Course { Id = 1, Title = "Data Structure", Description = "Algorizm", CourseCode = "202", CreditHours = 4, Hours = 14, Lecturer = "Fasica", TargetGroup = "abc" },
-                new Course { Id = 2, Title = "English", Description = "Acd", CourseCode = "203", CreditHours = 4, Hours = 14, Lecturer = "Fasica", TargetGroup = "abc" },
-                new Course { Id = 3, Title = "Maths", Description = "Acd", CourseCode = "204", CreditHours = 4, Hours = 14, Lecturer = "Fasica", TargetGroup = "abc" }
+                new Course { Id = 1, Title = "Data Structure", Description = "Algorizm", CourseCode = "202", CreditHours = 4, Hours = 14,  TargetGroup = "abc", DepartmentId = 1 },
+                new Course { Id = 2, Title = "English", Description = "Acd", CourseCode = "203", CreditHours = 4, Hours = 14,  TargetGroup = "abc", DepartmentId = 2 },
+                new Course { Id = 3, Title = "Maths", Description = "Acd", CourseCode = "204", CreditHours = 4, Hours = 14,  TargetGroup = "abc", DepartmentId = 3 }
             );
             modelBuilder.Entity<Department>().HasData(
                 new Department { Id = 1, UserName = "xyz", BlockNumber = "104", DepartmentName = "Electrical Enginering", YearOfEstablishment = 1999 },
