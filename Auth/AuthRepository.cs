@@ -67,7 +67,7 @@ namespace student_management.Auth
         public async Task<ServiceResponse<StudentResponseDto>> StudentLogin(string userName, string password)
         {
             var respone = new ServiceResponse<StudentResponseDto>();
-            var user = await _context.Students.FirstOrDefaultAsync(u => u.UserName.ToLower().Equals(userName.ToLower()));
+            var user = await _context.Students.Include(u => u.Course).FirstOrDefaultAsync(u => u.UserName.ToLower().Equals(userName.ToLower()));
             if ((user is null) || !VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
             {
                 respone.Success = false;

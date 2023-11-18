@@ -69,6 +69,7 @@ builder.Services.AddCors(Options =>
             .AllowAnyHeader();
         });
 });
+builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
 

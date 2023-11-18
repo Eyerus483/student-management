@@ -14,7 +14,7 @@ namespace student_management.Repository.StatusRepo
         }
         public async Task<ServiceResponse<string?>> UpdateVisitorsCount()
         {
-            var response = new ServiceResponse<string>();
+            var response = new ServiceResponse<string?>();
             var visitors = await _context.Visitors.FirstOrDefaultAsync();
 
             if(visitors == null)

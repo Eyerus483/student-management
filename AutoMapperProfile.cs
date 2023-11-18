@@ -24,6 +24,8 @@ namespace student_management
             CreateMap<CourseRequestDto, Course>();
             CreateMap<Course, CourseResponseDto>();
             CreateMap<AdminUpdateDto, Admin>();
+            CreateMap<CourseResponseDto, Course>();
+            
         }
     }
 }

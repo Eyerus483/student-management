@@ -29,7 +29,7 @@ namespace student_management.Repository.AdminRepo
             }
             _context.Admins.Remove(admin);
             await _context.SaveChangesAsync();
-            response.Message = "Succesfully deleted";
+            response.Message = "Successfully deleted";
             return response;
         }
 

@@ -5,6 +5,7 @@ namespace student_management.Repository.DepartmentRepo
 {
     public interface IDepartmentRepository
     {
-        public Task<ServiceResponse<CourseResponseDto>> CreateCourse(CourseRequestDto request);
+       
+    
     }
 }

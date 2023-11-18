@@ -12,6 +12,6 @@ namespace student_management.Dto.CourseDto
         public string CourseCode { get; set; } = string.Empty;
         public string TargetGroup { get; set; } = string.Empty;
         public int Hours { get; set; }
-        public List<StudentProfileResponseDto>? Students { get; set; }
+       
     }
 }

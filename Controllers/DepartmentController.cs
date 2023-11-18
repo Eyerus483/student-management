@@ -36,15 +36,6 @@ namespace student_management.Controllers
             return Ok(response);
         }
 
-        [HttpPost("register/course")]
-        public async Task<ActionResult<ServiceResponse<CourseResponseDto>>> RegisterCourse(CourseRequestDto request)
-        {
-            var response = await _unitOfWork.Department.CreateCourse(request);
-            if (!response.Success)
-            {
-                return BadRequest(response);
-            }
-            return Ok(response);
-        }
+        
     }
 }
