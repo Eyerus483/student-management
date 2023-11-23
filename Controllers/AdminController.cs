@@ -83,7 +83,17 @@ namespace student_management.Controllers
             return Ok(response);
         }
 
-        
+        [HttpGet("dashboard")]
+        public async Task<ActionResult<ServiceResponse<AdminDashboardResponseDto>>> GetAdminDashboard()
+        {
+            var response = await _unitOfWork.Admin.GetAdminDashboard();
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+
+            return Ok(response);
+        }
 
     }
 }

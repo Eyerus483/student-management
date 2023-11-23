@@ -19,15 +19,15 @@ namespace student_management.Controllers
             _unitOfWork = unitOfWork;
             
         }
-[HttpGet("admin")]
-        public async Task<ActionResult<ServiceResponse<AdminDashboardResponseDto>>> GetAdminDashboard(){
-            var response = await _unitOfWork.Admin.GetAdminDashboard();
-            if (!response.Success)
-            {
-                return BadRequest(response);
-            }
+// [HttpGet("admin")]
+//         public async Task<ActionResult<ServiceResponse<AdminDashboardResponseDto>>> GetAdminDashboard(){
+//             var response = await _unitOfWork.Admin.GetAdminDashboard();
+//             if (!response.Success)
+//             {
+//                 return BadRequest(response);
+//             }
 
-            return Ok(response);
-        }
+//             return Ok(response);
+//         }
     }
 }

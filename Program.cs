@@ -71,8 +71,9 @@ builder.Services.AddCors(Options =>
 });
 builder.Services.AddHttpContextAccessor();
 
-var app = builder.Build();
 
+var app = builder.Build();
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 // Configure the HTTP request pipeline.
 // if (app.Environment.IsDevelopment())
 //{

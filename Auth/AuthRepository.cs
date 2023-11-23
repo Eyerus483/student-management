@@ -8,6 +8,7 @@ using student_management.Dto.AdminDto;
 using student_management.Dto.DepartmentDto;
 using student_management.Dto.StudentDto;
 using student_management.Dto.TeacherDto;
+using student_management.Helpers.Common;
 using student_management.Model;
 
 namespace student_management.Auth
@@ -59,6 +60,8 @@ namespace student_management.Auth
             admin.PasswordHash = passwordHash;
             admin.PasswordSalt = passwordSalt;
             admin.Pid = GeneratePublicId();
+            admin.CreatedAt = CommonMethods.GetCurrentEasternDateTime();
+            admin.UpdatedAt = CommonMethods.GetCurrentEasternDateTime();
             _context.Admins.Add(admin);
             await _context.SaveChangesAsync();
             response.Message = "Sucessfuly registered";
@@ -99,6 +102,7 @@ namespace student_management.Auth
             student.PasswordHash = passwordHash;
             student.PasswordSalt = passwordSalt;
             student.Pid = GeneratePublicId();
+            student.CreatedAt = CommonMethods.GetCurrentEasternDateTime();
             int maxId = _context.Students.Any()?  _context.Students.Max(s => s.Id) : 0;
             maxId++;
             student.StudentId = $"SM/{maxId:D4}";
@@ -283,8 +287,9 @@ namespace student_management.Auth
             admin.FirstName = adminUpdate.FirstName;
             admin.LastName = adminUpdate.LastName;
             admin.UserName = adminUpdate.UserName;
+            admin.UpdatedAt = CommonMethods.GetCurrentEasternDateTime();
 
-               // _mapper.Map(adminUpdate, admin);
+            // _mapper.Map(adminUpdate, admin);
 
             await _context.SaveChangesAsync();
             response.Data = _mapper.Map<AdminProfileResponseDto>(admin);

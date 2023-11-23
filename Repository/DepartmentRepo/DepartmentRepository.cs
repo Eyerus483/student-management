@@ -2,6 +2,7 @@ using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using student_management.Data;
 using student_management.Dto.CourseDto;
+using student_management.Dto.DepartmentDto;
 using student_management.Model;
 
 namespace student_management.Repository.DepartmentRepo
@@ -16,6 +17,17 @@ namespace student_management.Repository.DepartmentRepo
             _context = context;
             
         }
-       
+
+        public Task<ServiceResponse<string>> DeleteDepartment(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public Task<ServiceResponse<DepartmentUpdateDto>> UpdateDepartment(int id)
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }
