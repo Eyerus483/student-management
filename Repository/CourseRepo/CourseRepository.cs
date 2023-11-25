@@ -3,6 +3,7 @@ using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using student_management.Data;
 using student_management.Dto.CourseDto;
+using student_management.Helpers.Common;
 using student_management.Model;
 
 namespace student_management.Repository.CourseRepo
@@ -38,6 +39,8 @@ namespace student_management.Repository.CourseRepo
                 return response;
             }
             courseRequest.DepartmentId = GetUserId();
+            courseRequest.CreatedAt = CommonMethods.GetCurrentEasternDateTime();
+            courseRequest.UpdatedAt = CommonMethods.GetCurrentEasternDateTime();
             _context.Courses.Add(courseRequest);
             await _context.SaveChangesAsync();
 

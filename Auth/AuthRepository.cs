@@ -103,6 +103,7 @@ namespace student_management.Auth
             student.PasswordSalt = passwordSalt;
             student.Pid = GeneratePublicId();
             student.CreatedAt = CommonMethods.GetCurrentEasternDateTime();
+            student.UpdatedAt = CommonMethods.GetCurrentEasternDateTime();
             int maxId = _context.Students.Any()?  _context.Students.Max(s => s.Id) : 0;
             maxId++;
             student.StudentId = $"SM/{maxId:D4}";
@@ -146,6 +147,8 @@ namespace student_management.Auth
             teacher.PasswordHash = passwordHash;
             teacher.PasswordSalt = passwordSalt;
             teacher.Pid = GeneratePublicId();
+            teacher.CreatedAt = CommonMethods.GetCurrentEasternDateTime();
+            teacher.UpdatedAt = CommonMethods.GetCurrentEasternDateTime();
             _context.Teachers.Add(teacher);
             await _context.SaveChangesAsync();
             response.Message = "Sucessfuly registered";
@@ -261,6 +264,8 @@ namespace student_management.Auth
             department.PasswordHash = passwordHash;
             department.PasswordSalt = passwordSalt;
             department.Pid = GeneratePublicId();
+            department.CreatedAt = CommonMethods.GetCurrentEasternDateTime();
+            department.UpdatedAt = CommonMethods.GetCurrentEasternDateTime();
             _context.Departments.Add(department);
             await _context.SaveChangesAsync();
             response.Message = "Sucessfuly registered";
