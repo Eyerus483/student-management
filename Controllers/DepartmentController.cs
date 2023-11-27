@@ -1,7 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using student_management.Auth;
 using student_management.Dto.AdminDto;
@@ -26,6 +29,7 @@ namespace student_management.Controllers
 
         }
         [HttpPost("login")]
+       
         public async Task<ActionResult<ServiceResponse<DepartmentResponseDto>>> Login(UserLoginDto request)
         {
             var response = await _authRepository.DepartmentLogin(request.UserName, request.Password);
@@ -36,6 +40,51 @@ namespace student_management.Controllers
             return Ok(response);
         }
 
-        
+        [HttpGet("fetch-all")]
+        public async Task<ActionResult<ServiceResponse<DepartmentResponseDto>>> FeatchDepartment()
+        {
+            var response = await _unitOfWork.Department.FetchAllDepartments();
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
+        }
+
+        [HttpGet("search")]
+        public async Task<ActionResult<ServiceResponse<DepartmentResponseDto>>> SearchDepartment([Required] string key)
+        {
+            var response = await _unitOfWork.Department.SearchForDepartment(key);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
+        }
+
+        [Authorize(Roles = "Department")]
+        [HttpPut("update")]
+        public async Task<ActionResult<ServiceResponse<DepartmentResponseDto>>> UpdateDepartment(DepartmentUpdateDto request)
+        {
+            var response = await _unitOfWork.Department.UpdateDepartment(request);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
+        }
+
+        [Authorize(Roles = "Department")]
+        [HttpDelete("delete")]
+        public async Task<ActionResult<ServiceResponse<string>>> DeleteDepartment(int id)
+        {
+            var response = await _unitOfWork.Department.DeleteDepartment(id);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
+        }
+
     }
 }

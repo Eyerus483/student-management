@@ -39,8 +39,8 @@ namespace student_management.Repository.CourseRepo
                 return response;
             }
             courseRequest.DepartmentId = GetUserId();
-            courseRequest.CreatedAt = CommonMethods.GetCurrentEasternDateTime();
-            courseRequest.UpdatedAt = CommonMethods.GetCurrentEasternDateTime();
+            department.CreatedAt = CommonMethods.GetCurrentEasternDateTime();
+            department.UpdatedAt = CommonMethods.GetCurrentEasternDateTime();
             _context.Courses.Add(courseRequest);
             await _context.SaveChangesAsync();
 

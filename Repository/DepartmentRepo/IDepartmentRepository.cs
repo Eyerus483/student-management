@@ -6,7 +6,9 @@ namespace student_management.Repository.DepartmentRepo
 {
     public interface IDepartmentRepository
     {
-        Task<ServiceResponse<DepartmentUpdateDto>> UpdateDepartment(int id);
+        public Task<ServiceResponse<List<DepartmentResponseDto>>> FetchAllDepartments();
+        public Task<ServiceResponse<List<DepartmentResponseDto>>> SearchForDepartment(string key);
+        Task<ServiceResponse<DepartmentResponseDto>> UpdateDepartment(DepartmentUpdateDto request);
         Task<ServiceResponse<string>> DeleteDepartment(int id);
     
     }
