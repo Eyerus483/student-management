@@ -8,6 +8,7 @@ namespace student_management.Repository.DepartmentRepo
     {
         public Task<ServiceResponse<List<DepartmentResponseDto>>> FetchAllDepartments();
         public Task<ServiceResponse<List<DepartmentResponseDto>>> SearchForDepartment(string key);
+        public Task<ServiceResponse<DepartmentProfileDto>> GetDepartmentProfile(string pid);
         Task<ServiceResponse<DepartmentResponseDto>> UpdateDepartment(DepartmentUpdateDto request);
         Task<ServiceResponse<string>> DeleteDepartment(int id);
     

@@ -64,9 +64,9 @@ namespace student_management.Controllers
         [Authorize(Roles = "Department")]
         [HttpPut("update")]
 
-        public async Task<ActionResult<ServiceResponse<CourseResponseDto>>> UpdateCourse(CourseResponseDto request)
+        public async Task<ActionResult<ServiceResponse<CourseResponseDto>>> UpdateCourse([FromHeader,Required] int id, CourseRequestDto request)
         {
-            var response = await _unitOfWork.Course.UpdateCourses(request);
+            var response = await _unitOfWork.Course.UpdateCourses(id: id, request: request);
             if (!response.Success)
             {
                 return BadRequest(response);
@@ -86,7 +86,7 @@ namespace student_management.Controllers
                 return BadRequest(response);
             }
 
-            return Ok(response);
+            return NoContent();
 
         }
         [Authorize(Roles = "Department")]

@@ -83,6 +83,21 @@ namespace student_management.Repository.DepartmentRepo
             return response;
         }
 
+        public async Task<ServiceResponse<DepartmentProfileDto>> GetDepartmentProfile(string pid)
+        {
+            var response = new ServiceResponse<DepartmentProfileDto>();
+            var department = await _context.Departments.FirstOrDefaultAsync(d => d.Pid.Equals(pid));
+            if (department is null)
+            {
+                response.Success = false;
+                response.Message = "Department not found";
+            }
+            else
+            {
+                response.Data = _mapper.Map<DepartmentProfileDto>(department);
+            }
+            return response;
+        }
     }
 }
 

@@ -109,10 +109,10 @@ namespace student_management.Repository.CourseRepo
 
         }
 
-        public async Task<ServiceResponse<CourseResponseDto>> UpdateCourses(CourseResponseDto request)
+        public async Task<ServiceResponse<CourseResponseDto>> UpdateCourses(CourseRequestDto request, int id)
         {
             var response = new ServiceResponse<CourseResponseDto>();
-            var course = await _context.Courses.Where(c => c.Id == request.Id).FirstOrDefaultAsync();
+            var course = await _context.Courses.Where(c => c.Id == id).FirstOrDefaultAsync();
             if (course == null)
             {
                 response.Success = false;

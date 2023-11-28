@@ -61,6 +61,17 @@ namespace student_management.Controllers
             }
             return Ok(response);
         }
+        [Authorize(Roles = "Department")]
+        [HttpGet("profile")]
+        public async Task<ActionResult<ServiceResponse<DepartmentProfileDto>>> GetDepartmentProfile([FromHeader, Required] string pid)
+        {
+            var response = await _unitOfWork.Department.GetDepartmentProfile(pid);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
+        }
 
         [Authorize(Roles = "Department")]
         [HttpPut("update")]

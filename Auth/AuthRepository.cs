@@ -18,14 +18,16 @@ namespace student_management.Auth
         public readonly DataContext _context;
         public readonly IConfiguration _configuration;
         private readonly IMapper _mapper;
-        public AuthRepository(DataContext context, IConfiguration configuration, IMapper mapper)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public AuthRepository(DataContext context, IConfiguration configuration, IMapper mapper, IHttpContextAccessor httpContextAccessor)
         {
+            _httpContextAccessor = httpContextAccessor;
             _mapper = mapper;
             _configuration = configuration;
             _context = context;
 
         }
-
+        private int GetUserId() => int.Parse(_httpContextAccessor.HttpContext!.User.FindFirstValue(ClaimTypes.NameIdentifier)!);
         public async Task<ServiceResponse<AdminResponseDto>> AdminLogin(string userName, string password)
         {
 
@@ -275,7 +277,7 @@ namespace student_management.Auth
         public async Task<ServiceResponse<AdminProfileResponseDto>> AdminUpdate(AdminUpdateDto request)
         {
             var response = new ServiceResponse<AdminProfileResponseDto>();
-            var admin = await _context.Admins.FirstOrDefaultAsync(a => a.Id == request.Id);
+            var admin = await _context.Admins.FirstOrDefaultAsync(a => a.Id == GetUserId());
             if(admin == null){
                 response.Success = false;
                 response.Message = "User doesn't exist";
