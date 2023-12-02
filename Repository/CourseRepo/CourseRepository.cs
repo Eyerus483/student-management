@@ -137,8 +137,8 @@ namespace student_management.Repository.CourseRepo
         public async Task<ServiceResponse<string>> DeleteCourse(int id)
         {
             var response = new ServiceResponse<string>();
-            var course = await _context.Courses.FirstOrDefaultAsync(c => c.Id == id);
-            if(course == null){
+            var course = await _context.Courses.FirstOrDefaultAsync(c => c.Id == id && c.DepartmentId == GetUserId());
+            if (course == null){
                 response.Success = false;
                 response.Message = "Course not found";
                 return response;

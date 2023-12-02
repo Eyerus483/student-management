@@ -26,7 +26,7 @@ namespace student_management.Repository.UnitOfWorkRepo
 
             Status = new StatusRepository(_context);
 
-            Department = new DepartmentRepository(_context, _mapper);
+            Department = new DepartmentRepository(_context, _mapper, _httpContextAccessor);
             Course = new CourseRepository(_context, _mapper, _httpContextAccessor);
         }
         public IAdminRepository Admin { get; private set; }

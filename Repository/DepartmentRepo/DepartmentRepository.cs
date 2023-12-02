@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using student_management.Data;
@@ -12,12 +13,15 @@ namespace student_management.Repository.DepartmentRepo
     {
         private readonly DataContext _context;
         private readonly IMapper _mapper;
-        public DepartmentRepository(DataContext context, IMapper mapper)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public DepartmentRepository(DataContext context, IMapper mapper, IHttpContextAccessor httpContextAccessor)
         {
+            _httpContextAccessor = httpContextAccessor;
             _mapper = mapper;
             _context = context;
 
         }
+        private int GetUserId() => int.Parse(_httpContextAccessor.HttpContext!.User.FindFirstValue(ClaimTypes.NameIdentifier)!);
         public async Task<ServiceResponse<List<DepartmentResponseDto>>> FetchAllDepartments()
         {
             var response = new ServiceResponse<List<DepartmentResponseDto>>();
@@ -45,7 +49,7 @@ namespace student_management.Repository.DepartmentRepo
         public async Task<ServiceResponse<DepartmentResponseDto>> UpdateDepartment(DepartmentUpdateDto request)
         {
             var response = new ServiceResponse<DepartmentResponseDto>();
-            var department = await _context.Departments.Where(d => d.Id == request.Id).FirstOrDefaultAsync();
+            var department = await _context.Departments.Where(d => d.Id == GetUserId()).FirstOrDefaultAsync();
             if (department == null)
             {
                 response.Success = false;

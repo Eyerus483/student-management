@@ -74,7 +74,7 @@ namespace student_management.Controllers
                 return BadRequest(response);
             }
 
-            return Ok(response);
+            return NoContent();
         }
     }
 }
