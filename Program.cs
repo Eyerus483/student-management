@@ -39,7 +39,7 @@ builder.Services.AddAutoMapper(typeof(Program).Assembly);
 // else
 //{
 builder.Services.AddDbContext<DataContext>(options =>
-   options.UseNpgsql(builder.Configuration.GetConnectionString("PostgresConnection")));
+   options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 //}
 
 

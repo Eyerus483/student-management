@@ -20,8 +20,8 @@ namespace student_management.Dto.StudentDto
         public int Year { get; set; }
         public string Section { get; set; } = string.Empty;
         public EnrollmentClass EnrollmentType { get; set; }
-        public List<CourseRequestDto>? Course { get; set; }
-        public DepartmentRequestDto? Department { get; set; }
+        public List<int>? CourseIds { get; set; }
+        public int DepartmentId { get; set; }
         public DateTime RegistrationDate { get; set; }
         public string Password { get; set; } = string.Empty;
        

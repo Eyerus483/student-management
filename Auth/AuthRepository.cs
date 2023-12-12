@@ -109,6 +109,11 @@ namespace student_management.Auth
             int maxId = _context.Students.Any()?  _context.Students.Max(s => s.Id) : 0;
             maxId++;
             student.StudentId = $"SM/{maxId:D4}";
+            student.Department = await _context.Departments.FirstOrDefaultAsync(d => d.Id == request.DepartmentId);
+
+            if(request.CourseIds != null)
+            student.Course = await _context.Courses.Where(c => request.CourseIds.Contains(c.Id)).ToListAsync();
+
             _context.Students.Add(student);
             await _context.SaveChangesAsync();
             response.Message = "Sucessfuly registered";
@@ -220,7 +225,7 @@ namespace student_management.Auth
         public async Task<ServiceResponse<StudentProfileResponseDto>> GetStudentProfile(string pid)
         {
             var response = new ServiceResponse<StudentProfileResponseDto>();
-            var user = await _context.Students.FirstOrDefaultAsync(u => u.Pid.Equals(pid));
+            var user = await _context.Students.Include(s=> s.Department).Include(s=> s.Course).FirstOrDefaultAsync(u => u.Pid.Equals(pid));
             if (user is null)
             {
                 response.Success = false;

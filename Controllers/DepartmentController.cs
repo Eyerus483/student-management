@@ -73,6 +73,37 @@ namespace student_management.Controllers
             return Ok(response);
         }
 
+        // [HttpGet("search")]
+        // public async Task<ActionResult<ServiceResponse<DepartmentResponseDto>>> SearchDepartment([Required] string key)
+        // {
+        //     var response = new ServiceResponse<DepartmentResponseDto>(key);
+
+        //     if (string.IsNullOrEmpty(key))
+        //     {
+        //         // Handle the case where the key is empty or null
+        //         response.Message = "Invalid key.";
+        //         return BadRequest(response);
+        //     }
+
+        //     if (key.Length > 1)
+        //     {
+        //         // If the length is greater than 1, return the key itself
+        //         response.Data = new DepartmentResponseDto { Key = key };
+        //     }
+        //     else
+        //     {
+        //         // If the length is greater than 0 but not greater than 1, return all departments
+        //         response = await _unitOfWork.Department.SearchForDepartment(key);
+        //         if (!response.Success)
+        //         {
+        //             return BadRequest(response);
+        //         }
+        //     }
+
+        //     return Ok(response);
+        // }
+
+
         [Authorize(Roles = "Department")]
         [HttpPut("update")]
         public async Task<ActionResult<ServiceResponse<DepartmentResponseDto>>> UpdateDepartment(DepartmentUpdateDto request)
