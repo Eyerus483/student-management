@@ -104,7 +104,7 @@ namespace student_management.Controllers
 
         }
 
-        [Authorize(Roles = "Department")]
+        [Authorize(Roles = "Admin")]
         [HttpGet("courses-by-departmentid")]
 
         public async Task<ActionResult<ServiceResponse<List<CourseResponseDto>>>> FeatchCoursesByDepartmentId(int id)
