@@ -81,13 +81,32 @@ namespace student_management.Repository.CourseRepo
         public async Task<ServiceResponse<List<CourseResponseDto>>> FeatchCourseseByDepartment()
         {
             var response = new ServiceResponse<List<CourseResponseDto>>();
-            var department = await _context.Departments.Include(d => d.Courses).FirstOrDefaultAsync(s => s.Id == GetUserId());
+            var department = await _context.Departments.Include(d => d.Courses).FirstOrDefaultAsync(d => d.Id == GetUserId());
             if(department == null){
                 response.Success = false;
                 response.Message = "Department not found";
                 return response;
             }
             if(department.Courses == null){
+                response.Message = "No Courses found";
+                return response;
+            }
+            response.Data = department.Courses.Select(d => _mapper.Map<CourseResponseDto>(d)).ToList();
+            return response;
+        }
+
+        public async Task<ServiceResponse<List<CourseResponseDto>>> FeatchCourseseByDepartmentId(int id)
+        {
+            var response = new ServiceResponse<List<CourseResponseDto>>();
+            var department = await _context.Departments.Include(d => d.Courses).FirstOrDefaultAsync(d => d.Id == id);
+            if (department == null)
+            {
+                response.Success = false;
+                response.Message = "Department not found";
+                return response;
+            }
+            if (department.Courses == null)
+            {
                 response.Message = "No Courses found";
                 return response;
             }

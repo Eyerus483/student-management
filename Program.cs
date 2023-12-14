@@ -33,11 +33,11 @@ builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
 // if(builder.Environment.IsDevelopment())
 // {
-//builder.Services.AddDbContext<DataContext>(options => 
+// builder.Services.AddDbContext<DataContext>(options => 
 // options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 // }
 // else
-//{
+// {
 builder.Services.AddDbContext<DataContext>(options =>
    options.UseNpgsql(builder.Configuration.GetConnectionString("PostgresConnection")));
 //}

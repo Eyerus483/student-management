@@ -40,8 +40,13 @@ namespace student_management.Repository.AdminRepo
             var totalDepartments = await _context.Departments.CountAsync();
             var totalTeachers = await _context.Teachers.CountAsync();
             var visitors = await _context.Visitors.FirstOrDefaultAsync();
+            var studentsRegisteredThisYear = await _context.Students.Where(s => s.RegistrationDate.Year == DateTime.Now.Year).CountAsync();
+            var studentsRegisteredLastYear = await _context.Students.Where(s => s.RegistrationDate.Year == DateTime.Now.Year - 1).CountAsync();
+            var studentsRegisteredIncreaseThisYear = studentsRegisteredThisYear - studentsRegisteredLastYear;
+            var studentsRegisteredIncreseLastYear = studentsRegisteredLastYear - await _context.Students.Where(s => s.RegistrationDate.Year == DateTime.Now.Year - 2).CountAsync();
 
-            response.Data = new AdminDashboardResponseDto { TotalStudents = totalStudents, TotalDepartments = totalDepartments, TotalTeachers = totalTeachers, TotalVisitors = visitors is null ? 0 : visitors.Count };
+            response.Data = new AdminDashboardResponseDto { TotalStudents = totalStudents, TotalDepartments = totalDepartments, TotalTeachers = totalTeachers, TotalVisitors = visitors is null ? 0 : visitors.Count, StudentsRegisteredThisYear = studentsRegisteredThisYear, 
+            StudentsRegisteredLastYear = studentsRegisteredLastYear, StudentsRegisteredIncreaseThisYear = studentsRegisteredIncreaseThisYear, StudentsRegisteredIncreseLastYear = studentsRegisteredIncreseLastYear};
 
             return response;
         }

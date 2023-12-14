@@ -74,7 +74,7 @@ namespace student_management.Repository.DepartmentRepo
         public async Task<ServiceResponse<string>> DeleteDepartment(int id)
         {
             var response = new ServiceResponse<string>();
-            var department = await _context.Departments.FirstOrDefaultAsync(d => d.Id == id);
+            var department = await _context.Departments.Include(d=> d.Courses).Include(d=> d.Students).FirstOrDefaultAsync(d => d.Id == id);
             if (department == null)
             {
                 response.Success = false;

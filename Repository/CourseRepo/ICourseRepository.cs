@@ -12,5 +12,7 @@ namespace student_management.Repository.CourseRepo
         public Task<ServiceResponse<CourseResponseDto>> UpdateCourses(CourseRequestDto request, int id);
         public Task<ServiceResponse<string>> DeleteCourse(int id);
         public Task<ServiceResponse<List<CourseResponseDto>>> FeatchCourseseByDepartment();
+        public Task<ServiceResponse<List<CourseResponseDto>>> FeatchCourseseByDepartmentId(int id);
+
     }
 }

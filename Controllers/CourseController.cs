@@ -103,6 +103,21 @@ namespace student_management.Controllers
             return Ok(response);
 
         }
+
+        [Authorize(Roles = "Department")]
+        [HttpGet("courses-by-departmentid")]
+
+        public async Task<ActionResult<ServiceResponse<List<CourseResponseDto>>>> FeatchCoursesByDepartmentId(int id)
+        {
+            var response = await _unitOfWork.Course.FeatchCourseseByDepartmentId(id);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+
+            return Ok(response);
+
+        }
     }
 
 }
